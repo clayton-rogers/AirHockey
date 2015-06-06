@@ -16,7 +16,14 @@ public abstract class Message {
         this.messageType = messageType;
     }
 
-    public static Message parseMessage (MessageType messageType, BufferedReader reader) {
+    public static Message parseMessage (BufferedReader reader) {
+        MessageType messageType;
+        try {
+            messageType = MessageType.parseMessageType(reader.read());
+        } catch (IOException e) {
+            return new NullMessage();
+        }
+
         switch (messageType) {
             case VERSION_REQUEST:
                 return new VersionRequest();
