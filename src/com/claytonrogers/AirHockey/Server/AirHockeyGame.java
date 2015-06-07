@@ -47,7 +47,6 @@ public class AirHockeyGame {
                             break;
                         case DISCONNECT:
                             gameOver = true;
-                            winner = 0;
                     }
                     playerConnections[i].receivedMessages.remove();
                 }
@@ -62,6 +61,9 @@ public class AirHockeyGame {
             // Send the state to the players
             Message message = new PositionUpdate(puckPosition, ObjectType.PUCK);
             for (Connection player : playerConnections) {
+                if (!player.isGood()) {
+                    gameOver = true;
+                }
                 player.send(message);
             }
 
