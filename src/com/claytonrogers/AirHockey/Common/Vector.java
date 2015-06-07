@@ -17,6 +17,11 @@ public class Vector {
         y = p.y;
     }
 
+    public void assign(Vector p) {
+        x = p.x;
+        y = p.y;
+    }
+
     public void addInPlace(Vector p) {
         x += p.x;
         y += p.y;

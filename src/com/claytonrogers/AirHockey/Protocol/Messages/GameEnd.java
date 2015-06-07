@@ -33,4 +33,8 @@ public class GameEnd extends Message{
         super.send(writer);
         writer.write(winner);
     }
+
+    public int getWinner() {
+        return winner;
+    }
 }
