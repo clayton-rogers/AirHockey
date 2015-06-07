@@ -106,6 +106,13 @@ public class Client extends JFrame implements MouseMotionListener {
                 }
 
                 switch (message.getMessageType()) {
+                    case VERSION_REQUEST:
+                        Message versionResponse = new VersionResponse(Protocol.PROTOCOL_VERSION);
+                        try {
+                            versionResponse.send(serverConnection.writer);
+                        } catch (IOException e) {
+                            System.out.println("There was an issue responding to a server version request.");
+                        }
                     case PUCK_UPDATE:
                         puckPosition.assign(
                                 ((PuckUpdate)message).getPosition()
