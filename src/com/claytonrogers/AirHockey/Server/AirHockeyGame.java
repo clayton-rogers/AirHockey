@@ -19,7 +19,7 @@ public class AirHockeyGame {
         boolean gameOver = false;
         int winner = 0;
         Vector puckPosition = new Vector(100,100); // in pixel (x right, y down)
-        Vector puckVelocity = new Vector(2,2);     // in pixel/ms
+        Vector puckVelocity = new Vector(1,1);     // in pixel/frame
         Vector[] playerPositions = new Vector[2];
         playerPositions[0] = new Vector();
         playerPositions[1] = new Vector();
@@ -53,8 +53,7 @@ public class AirHockeyGame {
             }
 
             // Calculate the next state of the game
-            Vector puckDisplacement = puckVelocity.scalarMultiply(FRAME_TIME_MS);
-            puckPosition.addInPlace(puckDisplacement);
+            puckPosition.addInPlace(puckVelocity);
 
             // TODO check for collisions
             // TODO check for winner
