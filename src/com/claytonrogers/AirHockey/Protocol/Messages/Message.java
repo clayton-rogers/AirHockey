@@ -39,6 +39,8 @@ public abstract class Message {
                 return new PingResponse();
             case POSITION_UPDATE:
                 return new PositionUpdate(reader);
+            case GAME_END:
+                return new GameEnd(reader);
             case NULL:
                 return null;
         }
