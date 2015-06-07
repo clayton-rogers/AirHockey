@@ -3,7 +3,6 @@ package com.claytonrogers.AirHockey.Client;
 import com.claytonrogers.AirHockey.Protocol.MessageType;
 import com.claytonrogers.AirHockey.Protocol.Messages.Message;
 import com.claytonrogers.AirHockey.Protocol.Protocol;
-import com.claytonrogers.AirHockey.Server.Server;
 
 import javax.swing.*;
 import java.io.*;
