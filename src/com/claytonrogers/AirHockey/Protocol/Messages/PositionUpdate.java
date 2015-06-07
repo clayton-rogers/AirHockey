@@ -31,9 +31,9 @@ public class PositionUpdate extends Message{
         try {
             String temp;
             temp = reader.readLine();
-            position.x = Integer.parseInt(temp);
+            position.x = Double.parseDouble(temp);
             temp = reader.readLine();
-            position.y = Integer.parseInt(temp);
+            position.y = Double.parseDouble(temp);
             temp = reader.readLine();
             type = ObjectType.parse(temp);
         } catch (IOException e) {

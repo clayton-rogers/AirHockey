@@ -4,11 +4,11 @@ package com.claytonrogers.AirHockey.Common;
  * Created by clayton on 2015-06-06.
  */
 public class Vector {
-    public int x = 0;
-    public int y = 0;
+    public double x = 0;
+    public double y = 0;
 
     public Vector() {}
-    public Vector(int x, int y) {
+    public Vector(double x, double y) {
         this.x = x;
         this.y = y;
     }
@@ -32,7 +32,7 @@ public class Vector {
         y -= p.y;
     }
 
-    public Vector scalarMultiply (int scalar) {
+    public Vector scalarMultiply (double scalar) {
         Vector vector = new Vector();
         vector.x = x * scalar;
         vector.y = y * scalar;
@@ -40,7 +40,7 @@ public class Vector {
         return vector;
     }
 
-    public Vector scalarDivide (int scalar) {
+    public Vector scalarDivide (double scalar) {
         Vector vector = new Vector(this);
         vector.x /= scalar;
         vector.y /= scalar;
@@ -48,16 +48,16 @@ public class Vector {
         return vector;
     }
 
-    public int magnitude() {
+    public double magnitude() {
         double mag = 0;
         mag += x * x;
         mag += y * y;
         mag = Math.sqrt(mag);
-        return (int) mag;
+        return mag;
     }
 
-    public int dotProduct (Vector v) {
-        int sum = 0;
+    public double dotProduct (Vector v) {
+        double sum = 0;
         sum += x * v.x;
         sum += y * v.y;
         return sum;

@@ -19,8 +19,8 @@ public class AirHockeyGame {
 
         boolean gameOver = false;
         int winner = 0;
-        Vector puckPosition = new Vector(10,10); // in pixel (x right, y down)
-        Vector puckVelocity = new Vector(2,3);     // in pixel/frame
+        Vector puckPosition = new Vector(10.0,10.0); // in pixel (x right, y down)
+        Vector puckVelocity = new Vector(0.5,0.7);     // in pixel/frame
         Vector[] playerPositions = new Vector[2];
         playerPositions[0] = new Vector();
         playerPositions[1] = new Vector();
@@ -66,14 +66,14 @@ public class AirHockeyGame {
                 Vector puckToPlayer = new Vector(playerPositions[i]);
                 puckToPlayer.subInPlace(puckPosition);
 
-                if (puckToPlayer.magnitude() < 50) {
+                if (puckToPlayer.magnitude() < 50.0) {
                     // A collision has occurred.
                     System.out.println("Collision before vel: " + puckVelocity.x + ' ' + puckVelocity.y);
                     // We're going to multiply the velocity by 100 000 then divide it back out later.
                     final int MULT_CONST = 10000;
                     puckVelocity = puckVelocity.scalarMultiply(MULT_CONST);
-                    int numerator = puckVelocity.dotProduct(puckToPlayer) * 2;
-                    int denominator = puckToPlayer.dotProduct(puckToPlayer);
+                    double numerator = puckVelocity.dotProduct(puckToPlayer) * 2.0;
+                    double denominator = puckToPlayer.dotProduct(puckToPlayer);
                     puckToPlayer = puckToPlayer.scalarMultiply(numerator/denominator);
                     puckToPlayer.subInPlace(puckVelocity);
                     puckVelocity.assign(puckToPlayer);
