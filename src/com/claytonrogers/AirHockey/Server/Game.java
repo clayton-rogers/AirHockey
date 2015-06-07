@@ -16,21 +16,16 @@ public class Game extends Thread {
 
     private Player[] players = new Player[2];
 
-    private final Socket player1;
-    private final Socket player2;
-
-    public Game(Socket player1, Socket player2) {
-        this.player1 = player1;
-        this.player2 = player2;
+    public Game(Player player1, Player player2) {
+        players[0] = player1;
+        players[1] = player2;
     }
 
     @Override
     public void run() {
         super.run();
 
-        // Get the streams from the sockets.
-        players[0] = new Player(player1);
-        players[1] = new Player(player2);
+        // If there was a problem with the socket things.
         for (Player player : players) {
             if (player.writer == null) {
                 return;

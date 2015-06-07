@@ -14,16 +14,16 @@ public class Server {
         System.out.println("Server starting...");
 
         try (ServerSocket serverSocket = new ServerSocket(Protocol.PORT_NUMBER)) {
-            Socket player1 = null;
-            Socket player2;
+            Player player1 = null;
+            Player player2;
             while (true) {
                 try (Socket socket = serverSocket.accept()){
                     if (player1 == null) {
                         System.out.println("Player 1 connected.");
-                        player1 = socket;
+                        player1 = new Player(socket);
                     } else {
                         System.out.println("Player 2 connected.");
-                        player2 = socket;
+                        player2 = new Player(socket);
                         Game game = new Game(player1, player2);
                         game.start();
                         player1 = null;
