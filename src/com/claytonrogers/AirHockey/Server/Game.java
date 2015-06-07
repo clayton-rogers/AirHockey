@@ -54,6 +54,8 @@ public class Game extends Thread {
                 }
             }
         } catch (IOException e) {
+            System.out.println("Exception: " + e);
+            System.out.println("There was an issue validating the clients.");
             return;
         }
 
