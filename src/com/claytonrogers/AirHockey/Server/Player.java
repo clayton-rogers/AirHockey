@@ -12,7 +12,7 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 /**
  * Created by clayton on 2015-06-06.
  */
-public class Player implements Closeable {
+public class Player {
 
     private final Socket socket;
     private BufferedReader reader;
@@ -73,12 +73,5 @@ public class Player implements Closeable {
 
     public boolean isGood() {
         return isGood;
-    }
-
-    @Override
-    public void close() throws IOException {
-        reader.close();
-        writer.close();
-        socket.close();
     }
 }
