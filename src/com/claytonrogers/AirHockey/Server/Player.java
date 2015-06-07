@@ -17,6 +17,7 @@ public class Player implements Closeable {
     private final Socket socket;
     private BufferedReader reader;
     private BufferedWriter writer;
+    private volatile boolean isGood = true;
 
     public Vector position = new Vector();
 
@@ -41,7 +42,8 @@ public class Player implements Closeable {
             while (true) {
                 Message message = Message.parseMessage(reader);
                 if (message == null) {
-                    System.out.println("Could not parse the message.");
+                    System.out.println("Could not parse the message. Not listening anymore.");
+                    isGood = false;
                     return;
                 }
                 if (Protocol.NET_DEBUG) {
@@ -53,6 +55,9 @@ public class Player implements Closeable {
     }
 
     public void send (Message message) {
+        if (!isGood) {
+            return;
+        }
         try {
             message.send(writer);
             if (Protocol.NET_DEBUG) {
@@ -61,9 +66,14 @@ public class Player implements Closeable {
         } catch (IOException e) {
             e.printStackTrace();
             System.out.println("There was an issue sending a message to the player.");
+            e.printStackTrace();
+            isGood = false;
         }
     }
 
+    public boolean isGood() {
+        return isGood;
+    }
 
     @Override
     public void close() throws IOException {
