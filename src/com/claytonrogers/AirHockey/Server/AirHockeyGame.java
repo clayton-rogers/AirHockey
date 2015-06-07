@@ -68,7 +68,6 @@ public class AirHockeyGame {
 
                 if (puckToPlayer.magnitude() < 50.0) {
                     // A collision has occurred.
-                    System.out.println("Collision before vel: " + puckVelocity.x + ' ' + puckVelocity.y);
                     // We're going to multiply the velocity by 100 000 then divide it back out later.
                     final int MULT_CONST = 10000;
                     puckVelocity = puckVelocity.scalarMultiply(MULT_CONST);
@@ -79,8 +78,6 @@ public class AirHockeyGame {
                     puckVelocity.assign(puckToPlayer);
 
                     puckVelocity = puckVelocity.scalarDivide(MULT_CONST);
-
-                    System.out.println("Collision after vel: " + puckVelocity.x + ' ' + puckVelocity.y);
 
                     // Only going to calculate one collision per frame.
                     break;
