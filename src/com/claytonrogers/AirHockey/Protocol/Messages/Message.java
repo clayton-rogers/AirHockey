@@ -1,10 +1,8 @@
 package com.claytonrogers.AirHockey.Protocol.Messages;
 
 import com.claytonrogers.AirHockey.Protocol.MessageType;
-import com.claytonrogers.AirHockey.Protocol.Protocol;
 
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 
@@ -39,12 +37,8 @@ public abstract class Message {
                 return new PingRequest();
             case PING_RESPONSE:
                 return new PingResponse();
-            case PUCK_UPDATE:
-                return new PuckUpdate(reader);
-            case OPPONENT_UPDATE:
-                return new OpponentUpdate(reader);
-            case PLAYER_UPDATE:
-                return new PlayerUpdate(reader);
+            case POSITION_UPDATE:
+                return new PositionUpdate(reader);
             case NULL:
                 return null;
         }

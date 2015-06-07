@@ -4,8 +4,8 @@ import com.claytonrogers.AirHockey.Common.Vector;
 import com.claytonrogers.AirHockey.Protocol.Connection;
 import com.claytonrogers.AirHockey.Protocol.Messages.GameEnd;
 import com.claytonrogers.AirHockey.Protocol.Messages.Message;
-import com.claytonrogers.AirHockey.Protocol.Messages.PlayerUpdate;
-import com.claytonrogers.AirHockey.Protocol.Messages.PuckUpdate;
+import com.claytonrogers.AirHockey.Protocol.Messages.PositionUpdate;
+import com.claytonrogers.AirHockey.Protocol.Messages.PositionUpdate.ObjectType;
 
 /**
  * Created by clayton on 2015-06-06.
@@ -39,10 +39,11 @@ public class AirHockeyGame {
 
                     switch (message.getMessageType()) {
                         // TODO make server handle all requests
-                        case PLAYER_UPDATE:
-                            playerPositions[i].assign(
-                                    ((PlayerUpdate) message).getPosition()
-                            );
+                        case POSITION_UPDATE:
+                            PositionUpdate positionUpdate = (PositionUpdate) message;
+                            if (positionUpdate.getType() == ObjectType.PLAYER) {
+                                playerPositions[i].assign(positionUpdate.getPosition());
+                            }
                             break;
                         case DISCONNECT:
                             gameOver = true;
@@ -59,7 +60,7 @@ public class AirHockeyGame {
             // TODO check for winner
 
             // Send the state to the players
-            Message message = new PuckUpdate(puckPosition);
+            Message message = new PositionUpdate(puckPosition, ObjectType.PUCK);
             for (Connection player : playerConnections) {
                 player.send(message);
             }

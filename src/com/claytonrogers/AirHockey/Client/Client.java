@@ -116,7 +116,7 @@ public class Client extends JFrame implements MouseMotionListener {
             }
 
             // Send the player position to the server
-            Message playerPositionMessage = new PlayerUpdate(playerPosition);
+            Message playerPositionMessage = new PositionUpdate(playerPosition, PositionUpdate.ObjectType.PLAYER);
             serverConnection.send(playerPositionMessage);
 
             // Process any messages from the server
@@ -127,15 +127,16 @@ public class Client extends JFrame implements MouseMotionListener {
                 }
 
                 switch (message.getMessageType()) {
-                    case PUCK_UPDATE:
-                        puckPosition.assign(
-                                ((PuckUpdate)message).getPosition()
-                        );
-                        break;
-                    case OPPONENT_UPDATE:
-                        opponentPosition.assign(
-                                ((OpponentUpdate)message).getPosition()
-                        );
+                    case POSITION_UPDATE:
+                        PositionUpdate positionUpdate = (PositionUpdate) message;
+                        switch (positionUpdate.getType()) {
+                            case OPPONENT:
+                                opponentPosition.assign(positionUpdate.getPosition());
+                                break;
+                            case PUCK:
+                                puckPosition.assign(positionUpdate.getPosition());
+                                break;
+                        }
                         break;
                     case DISCONNECT:
                         gameIsGood = false;
@@ -143,6 +144,7 @@ public class Client extends JFrame implements MouseMotionListener {
                     case GAME_END:
                         winner = ((GameEnd)message).getWinner();
                         gameIsGood = false;
+                        break;
                 }
                 serverConnection.receivedMessages.remove();
             }

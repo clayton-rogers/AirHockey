@@ -12,9 +12,7 @@ public enum MessageType {
     PING_REQUEST,
     PING_RESPONSE,
 
-    PUCK_UPDATE,
-    OPPONENT_UPDATE,
-    PLAYER_UPDATE,
+    POSITION_UPDATE,
     GAME_END;
 
     public static MessageType parseMessageType(String string) {
