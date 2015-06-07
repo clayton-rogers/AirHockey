@@ -42,7 +42,7 @@ public class AirHockeyGame {
                     }
 
                     switch (message.getMessageType()) {
-                        // TODO
+                        // TODO make server handle all requests
                         case PLAYER_UPDATE:
                             player.position.assign (
                                     ((PlayerUpdate)message).getPosition()

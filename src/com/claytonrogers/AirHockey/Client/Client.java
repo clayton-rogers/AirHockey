@@ -151,7 +151,7 @@ public class Client extends JFrame implements MouseMotionListener {
                 g2.drawImage(background, null, 0, 0);
                 g2.drawImage(puckSprite, null, puckPosition.x, puckPosition.y);
 
-                // TODO
+                // TODO finish drawing things.
 
 
             } finally {
