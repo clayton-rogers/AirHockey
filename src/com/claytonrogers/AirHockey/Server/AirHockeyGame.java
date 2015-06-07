@@ -59,12 +59,25 @@ public class AirHockeyGame {
             // TODO check for winner
 
             // Send the state to the players
-            Message message = new PositionUpdate(puckPosition, ObjectType.PUCK);
-            for (Connection player : playerConnections) {
-                if (!player.isGood()) {
+            for (int i = 0; i < 2; i++) {
+                if (!playerConnections[i].isGood()) {
                     gameOver = true;
                 }
-                player.send(message);
+                Message message;
+
+                // Send the puck position
+                message = new PositionUpdate(puckPosition, ObjectType.PUCK);
+                playerConnections[i].send(message);
+
+                // Send the opponent position
+                int opponentIndex;
+                if (i == 0) {
+                    opponentIndex = 1;
+                } else {
+                    opponentIndex = 0;
+                }
+                message = new PositionUpdate(playerPositions[opponentIndex], ObjectType.OPPONENT);
+                playerConnections[i].send(message);
             }
 
             // Wait around for the next frame.
