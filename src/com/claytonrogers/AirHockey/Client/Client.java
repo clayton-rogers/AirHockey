@@ -75,6 +75,11 @@ public class Client extends JFrame implements MouseMotionListener {
         Message message = null;
         while (message == null) {
             message = serverConnection.serverMessages.poll();
+            try {
+                Thread.sleep(100);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }
         if (message.getMessageType() == MessageType.VERSION_REQUEST) {
             Message versionResponse = new VersionResponse(Protocol.PROTOCOL_VERSION);
