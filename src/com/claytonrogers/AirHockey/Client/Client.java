@@ -169,6 +169,9 @@ public class Client extends JFrame implements MouseMotionListener {
 
     public static void main (String[] args) {
         String hostname = JOptionPane.showInputDialog("Enter server IP:");
+        if (hostname.equals("")) {
+            hostname = "localhost";
+        }
         Client client = new Client(hostname);
         client.run();
     }
