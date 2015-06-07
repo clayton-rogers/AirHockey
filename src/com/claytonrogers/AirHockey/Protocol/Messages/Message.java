@@ -1,6 +1,7 @@
 package com.claytonrogers.AirHockey.Protocol.Messages;
 
 import com.claytonrogers.AirHockey.Protocol.MessageType;
+import com.claytonrogers.AirHockey.Protocol.Protocol;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -20,7 +21,11 @@ public abstract class Message {
         MessageType messageType;
         try {
             messageType = MessageType.parseMessageType(reader.read());
+            if (Protocol.NET_DEBUG) {
+                System.out.println("Got message type: " + messageType);
+            }
         } catch (IOException e) {
+            System.out.println(e);
             System.out.println("IO error occurred while reading the message type.");
             return null;
         }
