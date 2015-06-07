@@ -185,7 +185,11 @@ public class Client extends JFrame implements MouseMotionListener {
         }
 
         // Tell which player won.
-        JOptionPane.showMessageDialog(null, "Player # " + String.valueOf(winner) + " won.");
+        if (winner == 0) {
+            JOptionPane.showMessageDialog(this, "Disconnected from server. There was no winner.");
+        } else {
+            JOptionPane.showMessageDialog(null, "Player # " + winner + " won.");
+        }
 
         // Close since the connection is no longer good. if the connection failed.
         dispatchEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSING));
