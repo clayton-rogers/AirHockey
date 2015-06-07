@@ -22,7 +22,7 @@ public class ServerConnection {
 
     private Socket socket;
 
-    private boolean isGood = true;
+    private volatile boolean isGood = true;
 
     public ServerConnection (String hostname) {
         try {
