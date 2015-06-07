@@ -19,8 +19,8 @@ public class AirHockeyGame {
 
         boolean gameOver = false;
         int winner = 0;
-        Vector puckPosition = new Vector(100,100); // in pixel (x right, y down)
-        Vector puckVelocity = new Vector(1,1);     // in pixel/frame
+        Vector puckPosition = new Vector(10,10); // in pixel (x right, y down)
+        Vector puckVelocity = new Vector(2,3);     // in pixel/frame
         Vector[] playerPositions = new Vector[2];
         playerPositions[0] = new Vector();
         playerPositions[1] = new Vector();
@@ -60,6 +60,32 @@ public class AirHockeyGame {
 
             // Calculate the next state of the game
             puckPosition.addInPlace(puckVelocity);
+
+            // Check for collisions.
+            for (int i = 0; i < 2; i++) {
+                Vector puckToPlayer = new Vector(playerPositions[i]);
+                puckToPlayer.subInPlace(puckPosition);
+
+                if (puckToPlayer.magnitude() < 50) {
+                    // A collision has occurred.
+                    System.out.println("Collision before vel: " + puckVelocity.x + ' ' + puckVelocity.y);
+                    // We're going to multiply the velocity by 100 000 then divide it back out later.
+                    final int MULT_CONST = 10000;
+                    puckVelocity = puckVelocity.scalarMultiply(MULT_CONST);
+                    int numerator = puckVelocity.dotProduct(puckToPlayer) * 2;
+                    int denominator = puckToPlayer.dotProduct(puckToPlayer);
+                    puckToPlayer = puckToPlayer.scalarMultiply(numerator/denominator);
+                    puckToPlayer.subInPlace(puckVelocity);
+                    puckVelocity.assign(puckToPlayer);
+
+                    puckVelocity = puckVelocity.scalarDivide(MULT_CONST);
+
+                    System.out.println("Collision after vel: " + puckVelocity.x + ' ' + puckVelocity.y);
+
+                    // Only going to calculate one collision per frame.
+                    break;
+                }
+            }
 
             // TODO check for collisions
             // TODO check for winner

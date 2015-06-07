@@ -39,4 +39,27 @@ public class Vector {
 
         return vector;
     }
+
+    public Vector scalarDivide (int scalar) {
+        Vector vector = new Vector(this);
+        vector.x /= scalar;
+        vector.y /= scalar;
+
+        return vector;
+    }
+
+    public int magnitude() {
+        double mag = 0;
+        mag += x * x;
+        mag += y * y;
+        mag = Math.sqrt(mag);
+        return (int) mag;
+    }
+
+    public int dotProduct (Vector v) {
+        int sum = 0;
+        sum += x * v.x;
+        sum += y * v.y;
+        return sum;
+    }
 }
