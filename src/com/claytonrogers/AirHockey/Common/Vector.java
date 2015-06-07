@@ -47,4 +47,11 @@ public class Vector {
         mag = Math.sqrt(mag);
         return (int) mag;
     }
+
+    public int dotProduct (Vector v) {
+        int sum = 0;
+        sum += x * v.x;
+        sum += y * v.y;
+        return sum;
+    }
 }
