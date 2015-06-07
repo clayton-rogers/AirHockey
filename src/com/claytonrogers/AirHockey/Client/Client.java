@@ -123,6 +123,7 @@ public class Client extends JFrame implements MouseMotionListener {
                         winner = ((GameEnd)message).getWinner();
                         gameIsGood = false;
                 }
+                serverConnection.serverMessages.remove();
             }
 
             // Draw the screen
