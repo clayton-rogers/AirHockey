@@ -40,10 +40,14 @@ public abstract class Message {
                 return new PuckUpdate(reader);
             case OPPONENT_UPDATE:
                 return new OpponentUpdate(reader);
+            case PLAYER_UPDATE:
+                return new PlayerUpdate(reader);
             case NULL:
-            default:
                 return new NullMessage();
         }
+
+        System.out.println("Could not find the message type. This should never happen.");
+        return null;
     }
 
     public void send(BufferedWriter writer) throws IOException {
