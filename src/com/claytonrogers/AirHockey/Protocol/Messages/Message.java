@@ -21,9 +21,6 @@ public abstract class Message {
         MessageType messageType;
         try {
             messageType = MessageType.parseMessageType(reader.read());
-            if (Protocol.NET_DEBUG) {
-                System.out.println("Got message type: " + messageType);
-            }
         } catch (IOException e) {
             System.out.println(e);
             System.out.println("IO error occurred while reading the message type.");

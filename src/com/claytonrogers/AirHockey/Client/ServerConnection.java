@@ -15,8 +15,8 @@ import java.util.concurrent.ConcurrentLinkedQueue;
  */
 public class ServerConnection {
 
-    public BufferedReader reader;
-    public BufferedWriter writer;
+    private BufferedReader reader;
+    private BufferedWriter writer;
     public Queue<Message> serverMessages = new ConcurrentLinkedQueue<>();
 
     private Socket socket;
@@ -42,7 +42,7 @@ public class ServerConnection {
                     return;
                 }
                 if (Protocol.NET_DEBUG) {
-                    System.out.println("Received message from client: " + message.getMessageType());
+                    System.out.println("Received message from server: " + message.getMessageType());
                 }
                 serverMessages.add(message);
             }
@@ -51,5 +51,17 @@ public class ServerConnection {
 
     public boolean isGood() {
         return isGood;
+    }
+
+    public void send (Message message) {
+        try {
+            message.send(writer);
+            if (Protocol.NET_DEBUG) {
+                System.out.println("Sending message to server: " + message.getMessageType());
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.out.println("There was an issue sending a message to the server.");
+        }
     }
 }

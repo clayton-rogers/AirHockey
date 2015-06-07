@@ -83,11 +83,7 @@ public class Client extends JFrame implements MouseMotionListener {
         }
         if (message.getMessageType() == MessageType.VERSION_REQUEST) {
             Message versionResponse = new VersionResponse(Protocol.PROTOCOL_VERSION);
-            try {
-                versionResponse.send(serverConnection.writer);
-            } catch (IOException e) {
-                System.out.println("There was an issue responding to a server version request.");
-            }
+            serverConnection.send(versionResponse);
         } else {
             System.out.println("Got something other than a version request as the first message.");
             return;
@@ -111,12 +107,7 @@ public class Client extends JFrame implements MouseMotionListener {
 
             // Send the player position to the server
             Message playerPositionMessage = new PlayerUpdate(playerPosition);
-            try {
-                playerPositionMessage.send(serverConnection.writer);
-            } catch (IOException e) {
-                gameIsGood = false;
-                System.out.println("Problem sending the player position to the server.");
-            }
+            serverConnection.send(playerPositionMessage);
 
             // Process any messages from the server
             while (true) {
