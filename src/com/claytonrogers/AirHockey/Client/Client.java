@@ -22,6 +22,8 @@ import java.net.Socket;
 public class Client extends JFrame implements MouseMotionListener {
 
     private static int FRAME_TIME = 17; // just a bit slower than 60 fps
+    private static Color BACKGROUND_COLOR = Color.LIGHT_GRAY;
+    private static Color CLEAR = new Color(0,0,0,0);
 
     private Connection serverConnection;
     private final Vector mousePosition = new Vector();
@@ -31,7 +33,7 @@ public class Client extends JFrame implements MouseMotionListener {
     private BufferedImage opponentSprite;
     private BufferedImage background;
 
-    private static Color BACKGROUND_COLOR = Color.LIGHT_GRAY;
+
 
     public Client(String hostname) {
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
@@ -62,23 +64,26 @@ public class Client extends JFrame implements MouseMotionListener {
 
         // Render all the sprites
         Graphics2D g;
-        puckSprite = new BufferedImage(20, 20, BufferedImage.TYPE_INT_RGB);
+        puckSprite = new BufferedImage(20, 20, BufferedImage.TYPE_INT_ARGB);
         g = puckSprite.createGraphics();
+        g.setColor(CLEAR);
+        g.fillRect(0,0,20,20);
         g.setColor(Color.BLUE);
-        g.setBackground(BACKGROUND_COLOR);
-        g.drawOval(0,0,20,20); // draw blue circle
+        g.fillOval(0, 0, 20, 20); // draw blue circle
 
-        playerSprite = new BufferedImage(30, 30, BufferedImage.TYPE_INT_RGB);
+        playerSprite = new BufferedImage(30, 30, BufferedImage.TYPE_INT_ARGB);
         g = playerSprite.createGraphics();
+        g.setColor(CLEAR);
+        g.fillRect(0,0,30,30);
         g.setColor(Color.BLACK);
-        g.setBackground(BACKGROUND_COLOR);
-        g.drawOval(0,0,30,30); // draw black circle
+        g.fillOval(0, 0, 30, 30); // draw black circle
 
-        opponentSprite = new BufferedImage(30, 30, BufferedImage.TYPE_INT_RGB);
+        opponentSprite = new BufferedImage(30, 30, BufferedImage.TYPE_INT_ARGB);
         g = opponentSprite.createGraphics();
+        g.setColor(CLEAR);
+        g.fillRect(0,0,30,30);
         g.setColor(Color.RED);
-        g.setBackground(BACKGROUND_COLOR);
-        g.drawOval(0,0,30,30); // draw red circle
+        g.fillOval(0, 0, 30, 30); // draw red circle
 
         background = new BufferedImage(Protocol.FIELD_WIDTH, Protocol.FIELD_HEIGHT, BufferedImage.TYPE_INT_RGB);
         g = background.createGraphics();
