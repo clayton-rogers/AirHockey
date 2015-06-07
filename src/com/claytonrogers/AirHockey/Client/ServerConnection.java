@@ -39,6 +39,7 @@ public class ServerConnection {
             Message message = Message.parseMessage(reader);
             if (message.getMessageType() == MessageType.NULL) {
                 isGood = false;
+                System.out.println("Got null message, no longer good.");
             }
             serverMessages.add(message);
         });
