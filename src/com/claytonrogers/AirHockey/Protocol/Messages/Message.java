@@ -43,7 +43,7 @@ public abstract class Message {
                 return null;
         }
 
-        System.out.println("Could not find the message type. This should never happen.");
+        System.out.println("Could not find the message type. This should never happen. Message type: " + messageType);
         return null;
     }
 

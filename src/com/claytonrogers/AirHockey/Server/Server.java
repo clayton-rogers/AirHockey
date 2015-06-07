@@ -19,6 +19,7 @@ public class Server {
             Connection player2;
             while (true) {
                 try {
+                    System.out.println("Waiting for players to connect...");
                     Socket socket = serverSocket.accept();
                     if (player1 == null) {
                         System.out.println("Player 1 connected.");
@@ -26,6 +27,7 @@ public class Server {
                     } else {
                         System.out.println("Player 2 connected.");
                         player2 = new Connection(socket);
+                        System.out.println("Two players connected, starting game.");
                         Game game = new Game(player1, player2);
                         game.start();
                         player1 = null;
