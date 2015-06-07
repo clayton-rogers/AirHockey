@@ -65,7 +65,8 @@ public class Client extends JFrame implements MouseMotionListener {
 
         background = new BufferedImage(Protocol.FIELD_WIDTH, Protocol.FIELD_HEIGHT, BufferedImage.TYPE_INT_RGB);
         g = background.createGraphics();
-        g.setBackground(Color.LIGHT_GRAY);
+        g.setColor(Color.LIGHT_GRAY);
+        g.fillRect(0, 0, Protocol.FIELD_WIDTH, Protocol.FIELD_HEIGHT);
 
         // Start a thread to watch the mouse cursor
 
