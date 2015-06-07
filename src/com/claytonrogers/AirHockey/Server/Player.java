@@ -55,7 +55,11 @@ public class Player implements Closeable {
     public void send (Message message) {
         try {
             message.send(writer);
+            if (Protocol.NET_DEBUG) {
+                System.out.println("Sending message to player: " + message.getMessageType());
+            }
         } catch (IOException e) {
+            e.printStackTrace();
             System.out.println("There was an issue sending a message to the player.");
         }
     }
