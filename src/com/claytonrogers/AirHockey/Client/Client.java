@@ -11,7 +11,6 @@ import java.awt.event.MouseMotionListener;
 import java.awt.event.WindowEvent;
 import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
-import java.io.BufferedReader;
 import java.io.IOException;
 
 /**
