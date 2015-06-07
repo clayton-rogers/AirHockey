@@ -36,6 +36,7 @@ public class PlayerUpdate extends Message{
         super.send(writer);
         writer.write(position.x);
         writer.write(position.y);
+        writer.flush();
     }
 
     public Vector getPosition() {

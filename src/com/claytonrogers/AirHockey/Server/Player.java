@@ -2,6 +2,7 @@ package com.claytonrogers.AirHockey.Server;
 
 import com.claytonrogers.AirHockey.Common.Vector;
 import com.claytonrogers.AirHockey.Protocol.Messages.Message;
+import com.claytonrogers.AirHockey.Protocol.Protocol;
 
 import java.io.*;
 import java.net.Socket;
@@ -14,7 +15,7 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 public class Player implements Closeable {
 
     private final Socket socket;
-    public BufferedReader reader;
+    private BufferedReader reader;
     public BufferedWriter writer;
 
     public Vector position = new Vector();

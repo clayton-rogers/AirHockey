@@ -1,6 +1,7 @@
 package com.claytonrogers.AirHockey.Client;
 
 import com.claytonrogers.AirHockey.Common.Vector;
+import com.claytonrogers.AirHockey.Protocol.MessageType;
 import com.claytonrogers.AirHockey.Protocol.Messages.*;
 import com.claytonrogers.AirHockey.Protocol.Protocol;
 
@@ -67,12 +68,25 @@ public class Client extends JFrame implements MouseMotionListener {
         g = background.createGraphics();
         g.setColor(Color.LIGHT_GRAY);
         g.fillRect(0, 0, Protocol.FIELD_WIDTH, Protocol.FIELD_HEIGHT);
-
-        // Start a thread to watch the mouse cursor
-
     }
 
     private void run() {
+
+        Message message = null;
+        while (message == null) {
+            message = serverConnection.serverMessages.poll();
+        }
+        if (message.getMessageType() == MessageType.VERSION_REQUEST) {
+            Message versionResponse = new VersionResponse(Protocol.PROTOCOL_VERSION);
+            try {
+                versionResponse.send(serverConnection.writer);
+            } catch (IOException e) {
+                System.out.println("There was an issue responding to a server version request.");
+            }
+        } else {
+            System.out.println("Got something other than a version request as the first message.");
+            return;
+        }
 
         Vector playerPosition = new Vector();
         Vector puckPosition = new Vector();
@@ -101,19 +115,12 @@ public class Client extends JFrame implements MouseMotionListener {
 
             // Process any messages from the server
             while (true) {
-                Message message = serverConnection.serverMessages.peek();
+                message = serverConnection.serverMessages.peek();
                 if (message == null) {
                     break;
                 }
 
                 switch (message.getMessageType()) {
-                    case VERSION_REQUEST:
-                        Message versionResponse = new VersionResponse(Protocol.PROTOCOL_VERSION);
-                        try {
-                            versionResponse.send(serverConnection.writer);
-                        } catch (IOException e) {
-                            System.out.println("There was an issue responding to a server version request.");
-                        }
                     case PUCK_UPDATE:
                         puckPosition.assign(
                                 ((PuckUpdate)message).getPosition()

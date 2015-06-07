@@ -42,6 +42,7 @@ public class VersionResponse extends Message{
         super.send(writer);
         writer.write(length);
         writer.write(version);
+        writer.flush();
     }
 
     public char[] getVersion() {

@@ -40,8 +40,12 @@ public class Game extends Thread {
             }
 
             for (Player player : players) {
-                VersionResponse versionResponse =
-                        (VersionResponse) Message.parseMessage(player.reader);
+                Message message = null;
+                while (message == null) {
+                    // Wait around until we get a message from the client.
+                    message = player.messageQueue.poll();
+                }
+                VersionResponse versionResponse = (VersionResponse) message;
                 String versionString = new String(versionResponse.getVersion());
                 if (!versionString.equals(Protocol.PROTOCOL_VERSION)) {
                     Disconnect disconnectMessage = new Disconnect();
