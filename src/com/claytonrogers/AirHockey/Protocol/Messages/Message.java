@@ -22,7 +22,7 @@ public abstract class Message {
             messageType = MessageType.parseMessageType(reader.read());
         } catch (IOException e) {
             System.out.println("IO error occurred while reading the message type.");
-            return new NullMessage();
+            return null;
         }
 
         switch (messageType) {
