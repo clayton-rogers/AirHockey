@@ -89,6 +89,10 @@ public class AirHockeyGame {
             // Wait around for the next frame.
             long endTime = System.currentTimeMillis();
             long waitTime = FRAME_TIME_MS - (endTime - startTime);
+            if (waitTime < 0L) {
+                waitTime = 0L;
+                System.out.println("Wait time was negative. Is the server overloaded?");
+            }
 
             try {
                 Thread.sleep(waitTime);
