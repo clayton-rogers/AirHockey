@@ -52,6 +52,8 @@ public class Game extends Thread {
             return;
         }
 
+        System.out.println("Clients have been validated.");
+
         // Start the actual game
         new AirHockeyGame().play(players);
 
