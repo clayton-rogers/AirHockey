@@ -14,7 +14,7 @@ import java.net.Socket;
  */
 public class Game extends Thread {
 
-    private Player[] players;
+    private Player[] players = new Player[2];
 
     private final Socket player1;
     private final Socket player2;
@@ -28,70 +28,41 @@ public class Game extends Thread {
     public void run() {
         super.run();
 
-        private BufferedReader player1reader;
-        private BufferedWriter player1writer;
-        private BufferedReader player2reader;
-        private BufferedWriter player2writer;
-
-
-
         // Get the streams from the sockets.
-        try {
-            player1writer = new BufferedWriter(new OutputStreamWriter(player1.getOutputStream()));
-            player1reader = new BufferedReader(new InputStreamReader(player1.getInputStream()));
-
-            player2writer = new BufferedWriter(new OutputStreamWriter(player2.getOutputStream()));
-            player2reader = new BufferedReader(new InputStreamReader(player2.getInputStream()));
-        } catch (IOException e) {
-            closeGameConnection();
-            return;
-        }
+        players[0] = new Player(player1);
+        players[1] = new Player(player2);
 
         // Validate that both players have to correct version.
         Message requestVer = new VersionRequest();
         try {
-            requestVer.send(player1writer);
-            requestVer.send(player2writer);
-
-            Disconnect disconnect = new Disconnect();
-
-            VersionResponse response = (VersionResponse) Message.parseMessage(player1reader);
-            if (! new String (response.getVersion()).equals(Protocol.PROTOCOL_VERSION)) {
-                disconnect.send(player1writer);
+            for (Player player : players) {
+                requestVer.send(player.writer);
             }
 
-            response = (VersionResponse) Message.parseMessage(player2reader);
-            if (! new String(response.getVersion()).equals(Protocol.PROTOCOL_VERSION)) {
-                disconnect.send(player2writer);
+            for (Player player : players) {
+                VersionResponse versionResponse =
+                        (VersionResponse) Message.parseMessage(player.reader);
+                String versionString = new String(versionResponse.getVersion());
+                if (!versionString.equals(Protocol.PROTOCOL_VERSION)) {
+                    Disconnect disconnectMessage = new Disconnect();
+                    disconnectMessage.send(player.writer);
+                    player.close();
+                }
             }
         } catch (IOException e) {
-            closeGameConnection();
             return;
         }
 
         // Start the actual game
-        new AirHockeyGame().play();
+        new AirHockeyGame().play(players);
 
-
-        // TODO game stuff here....
-    }
-
-    private void closeGameConnection () {
-        try {
-            player1writer.close();
-            player1reader.close();
-            player2writer.close();
-            player2reader.close();
-
-            player1.close();
-            player2.close();
-        } catch (IOException e) {
-            System.out.println("Could not close game connections.");
+        // Kill the connections
+        for (Player player : players) {
+            try {
+                player.close();
+            } catch (IOException e) {
+                System.out.println("There was a problem closing the connection with the clients.");
+            }
         }
-    }
-
-    private void playGame() {
-
-
     }
 }

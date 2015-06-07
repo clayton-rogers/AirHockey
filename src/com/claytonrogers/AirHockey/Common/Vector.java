@@ -17,13 +17,21 @@ public class Vector {
         y = p.y;
     }
 
-    public void add(Vector p) {
+    public void addInPlace(Vector p) {
         x += p.x;
         y += p.y;
     }
 
-    public void sub(Vector p) {
+    public void subInPlace(Vector p) {
         x -= p.x;
         y -= p.y;
+    }
+
+    public Vector scalarMultiply (int scalar) {
+        Vector vector = new Vector();
+        vector.x = x * scalar;
+        vector.y = y * scalar;
+
+        return vector;
     }
 }

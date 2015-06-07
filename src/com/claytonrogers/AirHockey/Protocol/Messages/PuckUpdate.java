@@ -1,6 +1,6 @@
 package com.claytonrogers.AirHockey.Protocol.Messages;
 
-import com.claytonrogers.AirHockey.Common.Position;
+import com.claytonrogers.AirHockey.Common.Vector;
 import com.claytonrogers.AirHockey.Protocol.MessageType;
 
 import java.io.BufferedReader;
@@ -11,7 +11,7 @@ import java.io.IOException;
  * Created by clayton on 2015-06-06.
  */
 public class PuckUpdate extends Message {
-    private Position position = new Position();
+    private Vector position = new Vector();
 
     // For receiving the update.
     public PuckUpdate (BufferedReader reader) {
@@ -21,14 +21,14 @@ public class PuckUpdate extends Message {
             position.y = reader.read();
         } catch (IOException e) {
             // Just return the default position if there is a problem.
-            position = new Position();
+            position = new Vector();
         }
     }
 
     // For creating an update to send out.
-    public PuckUpdate (Position position) {
+    public PuckUpdate (Vector position) {
         super(MessageType.PUCK_UPDATE);
-        this.position = new Position(position);
+        this.position = new Vector(position);
     }
 
     @Override
@@ -38,7 +38,7 @@ public class PuckUpdate extends Message {
         writer.write(position.y);
     }
 
-    public Position getPosition() {
+    public Vector getPosition() {
         return position;
     }
 }

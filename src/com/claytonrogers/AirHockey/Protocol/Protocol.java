@@ -6,4 +6,7 @@ package com.claytonrogers.AirHockey.Protocol;
 public class Protocol {
     public static String PROTOCOL_VERSION = "v0.1";
     public static int PORT_NUMBER = 60046;
+
+    public static int FIELD_WIDTH = 600;
+    public static int FIELD_HEIGHT = 900;
 }
