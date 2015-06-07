@@ -8,6 +8,5 @@ import com.claytonrogers.AirHockey.Protocol.MessageType;
 public class VersionRequest extends Message {
     public VersionRequest() {
         super(MessageType.VERSION_REQUEST);
-        messageType = MessageType.VERSION_REQUEST;
     }
 }

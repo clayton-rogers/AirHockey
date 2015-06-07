@@ -17,8 +17,9 @@ public enum MessageType {
     PLAYER_UPDATE,
     GAME_END;
 
-    public static MessageType parseMessageType(int a) {
+    public static MessageType parseMessageType(String string) {
         MessageType ret;
+        int a = Integer.parseInt(string);
         try {
             ret = MessageType.values()[a];
         } catch (ArrayIndexOutOfBoundsException e) {

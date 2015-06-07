@@ -6,6 +6,7 @@ import com.claytonrogers.AirHockey.Protocol.Protocol;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
+import java.io.PrintWriter;
 
 /**
  * Created by clayton on 2015-06-06.
@@ -20,7 +21,7 @@ public abstract class Message {
     public static Message parseMessage (BufferedReader reader) {
         MessageType messageType;
         try {
-            messageType = MessageType.parseMessageType(reader.read());
+            messageType = MessageType.parseMessageType(reader.readLine());
         } catch (IOException e) {
             System.out.println(e);
             System.out.println("IO error occurred while reading the message type.");
@@ -52,8 +53,8 @@ public abstract class Message {
         return null;
     }
 
-    public void send(BufferedWriter writer) throws IOException {
-        writer.write(messageType.ordinal());
+    public void send(PrintWriter writer) throws IOException {
+        writer.println(messageType.ordinal());
         writer.flush();
     }
     public MessageType getMessageType() {

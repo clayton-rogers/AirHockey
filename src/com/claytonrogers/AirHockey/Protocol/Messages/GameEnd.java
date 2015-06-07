@@ -3,8 +3,8 @@ package com.claytonrogers.AirHockey.Protocol.Messages;
 import com.claytonrogers.AirHockey.Protocol.MessageType;
 
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.IOException;
+import java.io.PrintWriter;
 
 /**
  * Created by clayton on 2015-06-06.
@@ -17,7 +17,8 @@ public class GameEnd extends Message{
         super(MessageType.GAME_END);
 
         try {
-            winner = reader.read();
+            String temp = reader.readLine();
+            winner = Integer.parseInt(temp);
         } catch (IOException e) {
             winner = -1;
         }
@@ -29,9 +30,10 @@ public class GameEnd extends Message{
     }
 
     @Override
-    public void send(BufferedWriter writer) throws IOException {
+    public void send(PrintWriter writer) throws IOException {
         super.send(writer);
-        writer.write(winner);
+        writer.println(winner);
+        writer.flush();
     }
 
     public int getWinner() {

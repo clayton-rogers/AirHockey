@@ -36,10 +36,9 @@ public class Game extends Thread {
                 message = player.receivedMessages.poll();
             }
             VersionResponse versionResponse = (VersionResponse) message;
-            String versionString = new String(versionResponse.getVersion());
-            if (!versionString.equals(Protocol.PROTOCOL_VERSION)) {
+            if (!versionResponse.getVersion().equals(Protocol.PROTOCOL_VERSION)) {
                 System.out.println("Client does not have correct version, disconnecting.");
-                System.out.println("Expected: |" + Protocol.PROTOCOL_VERSION + "| Got: |" + versionString + "|");
+                System.out.println("Expected: |" + Protocol.PROTOCOL_VERSION + "| Got: |" + versionResponse.getVersion() + "|");
                 Disconnect disconnectMessage = new Disconnect();
                 for (Connection myPlayer : players) {
                     myPlayer.send(disconnectMessage);

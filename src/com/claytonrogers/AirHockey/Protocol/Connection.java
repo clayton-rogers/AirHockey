@@ -13,7 +13,7 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 public class Connection implements Closeable {
 
     private BufferedReader reader;
-    private BufferedWriter writer;
+    private PrintWriter writer;
     public Queue<Message> receivedMessages = new ConcurrentLinkedQueue<>();
 
     private final Socket socket;
@@ -24,7 +24,7 @@ public class Connection implements Closeable {
         this.socket = socket;
         try {
             reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-            writer = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
+            writer = new PrintWriter(new OutputStreamWriter(socket.getOutputStream()));
         } catch (IOException e) {
             System.out.println("There was a problem making the connection.");
             isGood = false;
