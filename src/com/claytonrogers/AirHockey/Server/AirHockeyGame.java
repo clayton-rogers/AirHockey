@@ -1,13 +1,11 @@
 package com.claytonrogers.AirHockey.Server;
 
-
 import com.claytonrogers.AirHockey.Common.Vector;
+import com.claytonrogers.AirHockey.Protocol.Connection;
 import com.claytonrogers.AirHockey.Protocol.Messages.GameEnd;
 import com.claytonrogers.AirHockey.Protocol.Messages.Message;
 import com.claytonrogers.AirHockey.Protocol.Messages.PlayerUpdate;
 import com.claytonrogers.AirHockey.Protocol.Messages.PuckUpdate;
-
-import java.io.IOException;
 
 /**
  * Created by clayton on 2015-06-06.
@@ -16,9 +14,7 @@ public class AirHockeyGame {
 
     private static int FRAME_TIME_MS = 10;
 
-
-
-    public void play (Player[] players) {
+    public void play (Connection[] playerConnections) {
 
         boolean gameOver = false;
         int winner = 0;
@@ -34,9 +30,9 @@ public class AirHockeyGame {
             long startTime = System.currentTimeMillis();
 
             // Process inputs
-            for (Player player : players) {
+            for (int i = 0; i < 2; i++) {
                 while (true) {
-                    Message message = player.messageQueue.peek();
+                    Message message = playerConnections[i].receivedMessages.peek();
                     if (message == null) {
                         break;
                     }
@@ -44,15 +40,15 @@ public class AirHockeyGame {
                     switch (message.getMessageType()) {
                         // TODO make server handle all requests
                         case PLAYER_UPDATE:
-                            player.position.assign (
-                                    ((PlayerUpdate)message).getPosition()
+                            playerPositions[i].assign(
+                                    ((PlayerUpdate) message).getPosition()
                             );
                             break;
                         case DISCONNECT:
                             gameOver = true;
                             winner = 0;
                     }
-                    player.messageQueue.remove();
+                    playerConnections[i].receivedMessages.remove();
                 }
             }
 
@@ -65,7 +61,7 @@ public class AirHockeyGame {
 
             // Send the state to the players
             Message message = new PuckUpdate(puckPosition);
-            for (Player player : players) {
+            for (Connection player : playerConnections) {
                 player.send(message);
             }
 
@@ -82,7 +78,7 @@ public class AirHockeyGame {
 
 
         Message gameEndMessage = new GameEnd(winner);
-        for (Player player : players) {
+        for (Connection player : playerConnections) {
             player.send(gameEndMessage);
         }
     }

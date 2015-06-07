@@ -1,6 +1,7 @@
 package com.claytonrogers.AirHockey.Client;
 
 import com.claytonrogers.AirHockey.Common.Vector;
+import com.claytonrogers.AirHockey.Protocol.Connection;
 import com.claytonrogers.AirHockey.Protocol.MessageType;
 import com.claytonrogers.AirHockey.Protocol.Messages.*;
 import com.claytonrogers.AirHockey.Protocol.Protocol;
@@ -13,6 +14,7 @@ import java.awt.event.WindowEvent;
 import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.net.Socket;
 
 /**
  * Created by clayton on 2015-06-06.
@@ -21,7 +23,7 @@ public class Client extends JFrame implements MouseMotionListener {
 
     private static int FRAME_TIME = 17; // just a bit slower than 60 fps
 
-    private ServerConnection serverConnection;
+    private Connection serverConnection;
     private final Vector mousePosition = new Vector();
 
     private BufferedImage puckSprite;
@@ -45,7 +47,15 @@ public class Client extends JFrame implements MouseMotionListener {
         createBufferStrategy(2);
 
         // Connect to the server.
-        serverConnection = new ServerConnection(hostname);
+        try {
+            Socket socket = new Socket(hostname, Protocol.PORT_NUMBER);
+            serverConnection = new Connection(socket);
+        } catch (IOException e) {
+            JOptionPane.showMessageDialog(this, "Could not connect to the server.");
+            // Close since the connection is no longer good. if the connection failed.
+            dispatchEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSING));
+        }
+
 
         // Render all the sprites
         Graphics2D g;
@@ -74,7 +84,7 @@ public class Client extends JFrame implements MouseMotionListener {
 
         Message message = null;
         while (message == null) {
-            message = serverConnection.serverMessages.poll();
+            message = serverConnection.receivedMessages.poll();
             try {
                 Thread.sleep(100);
             } catch (InterruptedException e) {
@@ -111,7 +121,7 @@ public class Client extends JFrame implements MouseMotionListener {
 
             // Process any messages from the server
             while (true) {
-                message = serverConnection.serverMessages.peek();
+                message = serverConnection.receivedMessages.peek();
                 if (message == null) {
                     break;
                 }
@@ -134,7 +144,7 @@ public class Client extends JFrame implements MouseMotionListener {
                         winner = ((GameEnd)message).getWinner();
                         gameIsGood = false;
                 }
-                serverConnection.serverMessages.remove();
+                serverConnection.receivedMessages.remove();
             }
 
             // Draw the screen
