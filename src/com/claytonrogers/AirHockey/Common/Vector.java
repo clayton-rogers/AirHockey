@@ -39,4 +39,12 @@ public class Vector {
 
         return vector;
     }
+
+    public int magnitude() {
+        double mag = 0;
+        mag += x * x;
+        mag += y * y;
+        mag = Math.sqrt(mag);
+        return (int) mag;
+    }
 }
