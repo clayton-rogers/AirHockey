@@ -1,9 +1,7 @@
 package com.claytonrogers.AirHockey.Protocol;
 
 import com.claytonrogers.AirHockey.Protocol.Messages.Message;
-import com.claytonrogers.AirHockey.Server.Server;
 
-import javax.swing.*;
 import java.io.*;
 import java.net.Socket;
 import java.util.Queue;
@@ -16,7 +14,7 @@ public class Connection {
 
     private BufferedReader reader;
     private BufferedWriter writer;
-    public Queue<Message> serverMessages = new ConcurrentLinkedQueue<>();
+    public Queue<Message> receivedMessages = new ConcurrentLinkedQueue<>();
 
     private final Socket socket;
 
@@ -44,7 +42,7 @@ public class Connection {
                 if (Protocol.NET_DEBUG) {
                     System.out.println("Received: " + message.getMessageType());
                 }
-                serverMessages.add(message);
+                receivedMessages.add(message);
             }
         }).start();
     }
