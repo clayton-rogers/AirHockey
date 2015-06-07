@@ -22,7 +22,7 @@ public enum MessageType {
         try {
             ret = MessageType.values()[a];
         } catch (ArrayIndexOutOfBoundsException e) {
-            System.out.println("Caught bad message. This should never happen.");
+            System.out.println("Caught bad message. This should never happen. Message #: " + a);
             ret = NULL;
         }
         return ret;
