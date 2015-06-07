@@ -37,6 +37,7 @@ public class Client extends JFrame implements MouseMotionListener {
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setSize (Protocol.FIELD_WIDTH, Protocol.FIELD_HEIGHT);
         setVisible(true);
+        addMouseMotionListener(this);
 
         // This sleep is here because otherwise the create buffer will sometimes fail.
         try {
@@ -217,8 +218,8 @@ public class Client extends JFrame implements MouseMotionListener {
     public void mouseMoved(MouseEvent e) {
         synchronized (mousePosition) {
             Point point = e.getLocationOnScreen();
-            mousePosition.x = point.x;
-            mousePosition.y = point.y;
+            mousePosition.x = point.x - 15;
+            mousePosition.y = point.y - 15;
         }
     }
 }
