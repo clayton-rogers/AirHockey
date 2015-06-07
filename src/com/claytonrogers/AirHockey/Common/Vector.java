@@ -40,6 +40,14 @@ public class Vector {
         return vector;
     }
 
+    public Vector scalarDivide (int scalar) {
+        Vector vector = new Vector(this);
+        vector.x /= scalar;
+        vector.y /= scalar;
+
+        return vector;
+    }
+
     public int magnitude() {
         double mag = 0;
         mag += x * x;
