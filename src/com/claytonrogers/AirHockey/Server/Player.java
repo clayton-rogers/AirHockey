@@ -48,7 +48,7 @@ public class Player implements Closeable {
                 }
                 messageQueue.add(message);
             }
-        });
+        }).start();
     }
 
 

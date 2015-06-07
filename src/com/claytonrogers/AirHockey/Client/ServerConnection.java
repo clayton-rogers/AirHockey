@@ -46,7 +46,7 @@ public class ServerConnection {
                 }
                 serverMessages.add(message);
             }
-        });
+        }).start();
     }
 
     public boolean isGood() {
