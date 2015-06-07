@@ -36,8 +36,17 @@ public class Player implements Closeable {
         // This thread will constantly watch for new messages from the player and place them
         // on the queue.
         new Thread(() -> {
-            Message message = Message.parseMessage(reader);
-            messageQueue.add(message);
+            while (true) {
+                Message message = Message.parseMessage(reader);
+                if (message == null) {
+                    System.out.println("Could not parse the message.");
+                    return;
+                }
+                if (Protocol.NET_DEBUG) {
+                    System.out.println("Received message from client: " + message.getMessageType());
+                }
+                messageQueue.add(message);
+            }
         });
     }
 

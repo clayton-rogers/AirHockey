@@ -35,12 +35,17 @@ public class ServerConnection {
         }
 
         new Thread(() -> {
-            Message message = Message.parseMessage(reader);
-            if (message.getMessageType() == MessageType.NULL) {
-                isGood = false;
-                System.out.println("Got null message, no longer good.");
+            while (true) {
+                Message message = Message.parseMessage(reader);
+                if (message == null) {
+                    System.out.println("Could not parse the message.");
+                    return;
+                }
+                if (Protocol.NET_DEBUG) {
+                    System.out.println("Received message from client: " + message.getMessageType());
+                }
+                serverMessages.add(message);
             }
-            serverMessages.add(message);
         });
     }
 
