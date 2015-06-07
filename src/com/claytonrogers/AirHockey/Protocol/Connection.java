@@ -10,7 +10,7 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 /**
  * Created by clayton on 2015-06-06.
  */
-public class Connection {
+public class Connection implements Closeable {
 
     private BufferedReader reader;
     private BufferedWriter writer;
@@ -66,5 +66,12 @@ public class Connection {
 
     public boolean isGood() {
         return isGood;
+    }
+
+    @Override
+    public void close() throws IOException {
+        writer.close();
+        reader.close();
+        socket.close();
     }
 }
