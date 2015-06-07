@@ -15,7 +15,7 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 public class Player implements Closeable {
 
     private final Socket socket;
-    public BufferedReader reader;
+    private BufferedReader reader;
     public BufferedWriter writer;
 
     public Vector position = new Vector();
