@@ -17,7 +17,8 @@ public class Server {
             Player player1 = null;
             Player player2;
             while (true) {
-                try (Socket socket = serverSocket.accept()){
+                try {
+                    Socket socket = serverSocket.accept();
                     if (player1 == null) {
                         System.out.println("Player 1 connected.");
                         player1 = new Player(socket);
@@ -28,6 +29,8 @@ public class Server {
                         game.start();
                         player1 = null;
                     }
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
             }
         } catch (IOException e) {
