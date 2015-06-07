@@ -20,9 +20,8 @@ public class VersionResponse extends Message{
 
         try {
             length = reader.read();
-            version = new char[length+1];
+            version = new char[length];
             reader.read(version, 0, length);
-            version[length] = 0;
             versionValid = true;
         } catch (IOException e) {
             System.out.print(e);
