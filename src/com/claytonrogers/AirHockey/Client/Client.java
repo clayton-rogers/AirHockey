@@ -31,6 +31,8 @@ public class Client extends JFrame implements MouseMotionListener {
     private BufferedImage opponentSprite;
     private BufferedImage background;
 
+    private static Color BACKGROUND_COLOR = Color.LIGHT_GRAY;
+
     public Client(String hostname) {
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setSize (Protocol.FIELD_WIDTH, Protocol.FIELD_HEIGHT);
@@ -62,21 +64,24 @@ public class Client extends JFrame implements MouseMotionListener {
         puckSprite = new BufferedImage(20, 20, BufferedImage.TYPE_INT_RGB);
         g = puckSprite.createGraphics();
         g.setColor(Color.BLUE);
+        g.setBackground(BACKGROUND_COLOR);
         g.drawOval(0,0,20,20); // draw blue circle
 
         playerSprite = new BufferedImage(30, 30, BufferedImage.TYPE_INT_RGB);
         g = playerSprite.createGraphics();
         g.setColor(Color.BLACK);
+        g.setBackground(BACKGROUND_COLOR);
         g.drawOval(0,0,30,30); // draw black circle
 
         opponentSprite = new BufferedImage(30, 30, BufferedImage.TYPE_INT_RGB);
         g = opponentSprite.createGraphics();
         g.setColor(Color.RED);
+        g.setBackground(BACKGROUND_COLOR);
         g.drawOval(0,0,30,30); // draw red circle
 
         background = new BufferedImage(Protocol.FIELD_WIDTH, Protocol.FIELD_HEIGHT, BufferedImage.TYPE_INT_RGB);
         g = background.createGraphics();
-        g.setColor(Color.LIGHT_GRAY);
+        g.setColor(BACKGROUND_COLOR);
         g.fillRect(0, 0, Protocol.FIELD_WIDTH, Protocol.FIELD_HEIGHT);
     }
 
@@ -158,9 +163,8 @@ public class Client extends JFrame implements MouseMotionListener {
 
                 g2.drawImage(background, null, 0, 0);
                 g2.drawImage(puckSprite, null, puckPosition.x, puckPosition.y);
-
-                // TODO finish drawing things.
-
+                g2.drawImage(playerSprite, null, playerPosition.x, playerPosition.y);
+                g2.drawImage(opponentSprite, null, opponentPosition.x, opponentPosition.y);
 
             } finally {
                 if (g != null) {
