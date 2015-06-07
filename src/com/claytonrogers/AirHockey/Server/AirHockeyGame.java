@@ -4,6 +4,7 @@ import com.claytonrogers.AirHockey.Common.Vector;
 import com.claytonrogers.AirHockey.Protocol.Connection;
 import com.claytonrogers.AirHockey.Protocol.Messages.GameEnd;
 import com.claytonrogers.AirHockey.Protocol.Messages.Message;
+import com.claytonrogers.AirHockey.Protocol.Messages.PingResponse;
 import com.claytonrogers.AirHockey.Protocol.Messages.PositionUpdate;
 import com.claytonrogers.AirHockey.Protocol.Messages.PositionUpdate.ObjectType;
 
@@ -47,6 +48,11 @@ public class AirHockeyGame {
                             break;
                         case DISCONNECT:
                             gameOver = true;
+                            break;
+                        case PING_REQUEST:
+                            Message message1 = new PingResponse();
+                            playerConnections[i].send(message1);
+                            break;
                     }
                     playerConnections[i].receivedMessages.remove();
                 }
