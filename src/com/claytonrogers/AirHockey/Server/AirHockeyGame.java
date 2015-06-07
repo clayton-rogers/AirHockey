@@ -44,7 +44,10 @@ public class AirHockeyGame {
                     switch (message.getMessageType()) {
                         // TODO
                         case PLAYER_UPDATE:
-                            player.position = ((PlayerUpdate)message).getPosition();
+                            player.position.assign (
+                                    ((PlayerUpdate)message).getPosition()
+                            );
+                            break;
                         case DISCONNECT:
                             gameOver = true;
                             winner = 0;

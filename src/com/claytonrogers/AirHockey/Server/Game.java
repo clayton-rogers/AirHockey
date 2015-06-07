@@ -31,6 +31,11 @@ public class Game extends Thread {
         // Get the streams from the sockets.
         players[0] = new Player(player1);
         players[1] = new Player(player2);
+        for (Player player : players) {
+            if (player.writer == null) {
+                return;
+            }
+        }
 
         // Validate that both players have to correct version.
         Message requestVer = new VersionRequest();

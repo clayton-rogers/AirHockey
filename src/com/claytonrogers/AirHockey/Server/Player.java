@@ -29,6 +29,8 @@ public class Player implements Closeable {
         } catch (IOException e) {
             reader = null;
             writer = null;
+            e.printStackTrace();
+            System.out.println("Could not create player reader and writer.");
         }
 
         // This thread will constantly watch for new messages from the player and place them
