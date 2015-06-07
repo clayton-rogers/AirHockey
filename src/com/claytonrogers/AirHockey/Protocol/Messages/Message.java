@@ -48,7 +48,7 @@ public abstract class Message {
             case PLAYER_UPDATE:
                 return new PlayerUpdate(reader);
             case NULL:
-                return new NullMessage();
+                return null;
         }
 
         System.out.println("Could not find the message type. This should never happen.");

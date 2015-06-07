@@ -18,6 +18,13 @@ public enum MessageType {
     GAME_END;
 
     public static MessageType parseMessageType(int a) {
-        return MessageType.values()[a];
+        MessageType ret;
+        try {
+            ret = MessageType.values()[a];
+        } catch (ArrayIndexOutOfBoundsException e) {
+            System.out.println("Caught bad message. This should never happen.");
+            ret = NULL;
+        }
+        return ret;
     }
 }
