@@ -25,18 +25,11 @@ public class Game extends Thread {
     public void run() {
         super.run();
 
-        // If there was a problem with the socket things.
-        for (Player player : players) {
-            if (player.writer == null) {
-                return;
-            }
-        }
-
         // Validate that both players have to correct version.
         Message requestVer = new VersionRequest();
         try {
             for (Player player : players) {
-                requestVer.send(player.writer);
+                player.send(requestVer);
             }
 
             for (Player player : players) {
@@ -49,7 +42,7 @@ public class Game extends Thread {
                 String versionString = new String(versionResponse.getVersion());
                 if (!versionString.equals(Protocol.PROTOCOL_VERSION)) {
                     Disconnect disconnectMessage = new Disconnect();
-                    disconnectMessage.send(player.writer);
+                    player.send(disconnectMessage);
                     player.close();
                 }
             }

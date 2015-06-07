@@ -66,13 +66,7 @@ public class AirHockeyGame {
             // Send the state to the players
             Message message = new PuckUpdate(puckPosition);
             for (Player player : players) {
-                try {
-                    message.send(player.writer);
-                } catch (IOException e) {
-                    System.out.println("Exception while trying to send players update.");
-                    gameOver = true;
-                    winner = 0;
-                }
+                player.send(message);
             }
 
             // Wait around for the next frame.
@@ -89,11 +83,7 @@ public class AirHockeyGame {
 
         Message gameEndMessage = new GameEnd(winner);
         for (Player player : players) {
-            try {
-                gameEndMessage.send(player.writer);
-            } catch (IOException e) {
-                // We don't care if they get it.
-            }
+            player.send(gameEndMessage);
         }
     }
 }

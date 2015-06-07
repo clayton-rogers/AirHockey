@@ -16,7 +16,7 @@ public class Player implements Closeable {
 
     private final Socket socket;
     private BufferedReader reader;
-    public BufferedWriter writer;
+    private BufferedWriter writer;
 
     public Vector position = new Vector();
 
@@ -50,6 +50,14 @@ public class Player implements Closeable {
                 messageQueue.add(message);
             }
         }).start();
+    }
+
+    public void send (Message message) {
+        try {
+            message.send(writer);
+        } catch (IOException e) {
+            System.out.println("There was an issue sending a message to the player.");
+        }
     }
 
 
