@@ -4,6 +4,7 @@ package com.claytonrogers.AirHockey.Server;
 import com.claytonrogers.AirHockey.Common.Vector;
 import com.claytonrogers.AirHockey.Protocol.Messages.GameEnd;
 import com.claytonrogers.AirHockey.Protocol.Messages.Message;
+import com.claytonrogers.AirHockey.Protocol.Messages.PlayerUpdate;
 import com.claytonrogers.AirHockey.Protocol.Messages.PuckUpdate;
 
 import java.io.IOException;
@@ -41,10 +42,14 @@ public class AirHockeyGame {
                     }
 
                     switch (message.getMessageType()) {
+                        // TODO
+                        case PLAYER_UPDATE:
+                            player.position = ((PlayerUpdate)message).getPosition();
                         case DISCONNECT:
                             gameOver = true;
                             winner = 0;
                     }
+                    player.messageQueue.remove();
                 }
             }
 

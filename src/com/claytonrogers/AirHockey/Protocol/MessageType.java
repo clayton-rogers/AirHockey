@@ -14,6 +14,7 @@ public enum MessageType {
 
     PUCK_UPDATE,
     OPPONENT_UPDATE,
+    PLAYER_UPDATE,
     GAME_END;
 
     public static MessageType parseMessageType(int a) {
