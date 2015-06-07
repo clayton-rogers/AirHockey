@@ -57,6 +57,7 @@ public abstract class Message {
 
     public void send(BufferedWriter writer) throws IOException {
         writer.write(messageType.ordinal());
+        writer.flush();
     }
     public MessageType getMessageType() {
         return messageType;
