@@ -65,31 +65,53 @@ public class Client extends JFrame implements MouseMotionListener {
 
         // Render all the sprites
         Graphics2D g;
-        puckSprite = new BufferedImage(20, 20, BufferedImage.TYPE_INT_ARGB);
+        puckSprite = new BufferedImage(Protocol.PUCK_RADIUS*2,
+                                       Protocol.PUCK_RADIUS*2,
+                                       BufferedImage.TYPE_INT_ARGB);
         g = puckSprite.createGraphics();
         g.setColor(CLEAR);
-        g.fillRect(0,0,20,20);
+        g.fillRect(0,0,
+                Protocol.PUCK_RADIUS*2,
+                Protocol.PUCK_RADIUS*2);
         g.setColor(Color.BLUE);
-        g.fillOval(0, 0, 20, 20); // draw blue circle
+        g.fillOval(0, 0,
+                Protocol.PUCK_RADIUS*2,
+                Protocol.PUCK_RADIUS*2); // draw blue circle
 
-        playerSprite = new BufferedImage(30, 30, BufferedImage.TYPE_INT_ARGB);
+        playerSprite = new BufferedImage(Protocol.PLAYER_RADIUS*2,
+                                         Protocol.PLAYER_RADIUS*2,
+                                         BufferedImage.TYPE_INT_ARGB);
         g = playerSprite.createGraphics();
         g.setColor(CLEAR);
-        g.fillRect(0,0,30,30);
+        g.fillRect(0,0,
+                Protocol.PLAYER_RADIUS*2,
+                Protocol.PLAYER_RADIUS*2);
         g.setColor(Color.BLACK);
-        g.fillOval(0, 0, 30, 30); // draw black circle
+        g.fillOval(0, 0,
+                Protocol.PLAYER_RADIUS*2,
+                Protocol.PLAYER_RADIUS*2); // draw black circle
 
-        opponentSprite = new BufferedImage(30, 30, BufferedImage.TYPE_INT_ARGB);
+        opponentSprite = new BufferedImage(Protocol.PLAYER_RADIUS*2,
+                                           Protocol.PLAYER_RADIUS*2,
+                                           BufferedImage.TYPE_INT_ARGB);
         g = opponentSprite.createGraphics();
         g.setColor(CLEAR);
-        g.fillRect(0,0,30,30);
+        g.fillRect(0,0,
+                Protocol.PLAYER_RADIUS*2,
+                Protocol.PLAYER_RADIUS*2);
         g.setColor(Color.RED);
-        g.fillOval(0, 0, 30, 30); // draw red circle
+        g.fillOval(0, 0,
+                Protocol.PLAYER_RADIUS*2,
+                Protocol.PLAYER_RADIUS*2); // draw red circle
 
-        background = new BufferedImage(Protocol.FIELD_WIDTH+BORDER_SIZE, Protocol.FIELD_HEIGHT+BORDER_SIZE, BufferedImage.TYPE_INT_RGB);
+        background = new BufferedImage(Protocol.FIELD_WIDTH+BORDER_SIZE,
+                                       Protocol.FIELD_HEIGHT+BORDER_SIZE,
+                                       BufferedImage.TYPE_INT_RGB);
         g = background.createGraphics();
         g.setColor(BACKGROUND_COLOR);
-        g.fillRect(0, 0, Protocol.FIELD_WIDTH+BORDER_SIZE, Protocol.FIELD_HEIGHT+BORDER_SIZE);
+        g.fillRect(0, 0,
+                Protocol.FIELD_WIDTH+BORDER_SIZE,
+                Protocol.FIELD_HEIGHT+BORDER_SIZE);
     }
 
     private void run() {
