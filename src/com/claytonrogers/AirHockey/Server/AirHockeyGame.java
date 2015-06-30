@@ -15,6 +15,12 @@ public class AirHockeyGame {
 
     private static int FRAME_TIME_MS = 10;
 
+    // This is the sum of the radius of the puck and player.
+    private static double COLLISION_RADIUS = 25.0;
+
+    // Number of frames before a collision can occur, after a collision has already occurred.
+    private static int COLLISION_COOLDOWN = 25;
+
     public void play (Connection[] playerConnections) {
 
         boolean gameOver = false;
@@ -24,6 +30,7 @@ public class AirHockeyGame {
         Vector[] playerPositions = new Vector[2];
         playerPositions[0] = new Vector();
         playerPositions[1] = new Vector();
+        int collisionCooldownValue = 0;
 
         // Main game loop
         while (!gameOver) {
@@ -62,11 +69,15 @@ public class AirHockeyGame {
             puckPosition.addInPlace(puckVelocity);
 
             // Check for collisions.
+            if (collisionCooldownValue > 0) {
+                --collisionCooldownValue;
+            }
+            // Check for player to puck collisions
             for (int i = 0; i < 2; i++) {
                 Vector puckToPlayer = new Vector(playerPositions[i]);
                 puckToPlayer.subInPlace(puckPosition);
 
-                if (puckToPlayer.magnitude() < 50.0) {
+                if (puckToPlayer.magnitude() < COLLISION_RADIUS && collisionCooldownValue == 0) {
                     // A collision has occurred.
                     // We're going to multiply the velocity by 100 000 then divide it back out later.
                     final int MULT_CONST = 10000;
@@ -78,6 +89,8 @@ public class AirHockeyGame {
                     puckVelocity.assign(puckToPlayer);
 
                     puckVelocity = puckVelocity.scalarDivide(MULT_CONST);
+
+                    collisionCooldownValue = COLLISION_COOLDOWN;
 
                     // Only going to calculate one collision per frame.
                     break;
