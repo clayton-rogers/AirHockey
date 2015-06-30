@@ -24,6 +24,7 @@ public class Client extends JFrame implements MouseMotionListener {
     private static int FRAME_TIME = 17; // just a bit slower than 60 fps
     private static Color BACKGROUND_COLOR = Color.LIGHT_GRAY;
     private static Color CLEAR = new Color(0,0,0,0);
+    private static final int BORDER_SIZE = 18; // pixels
 
     private Connection serverConnection;
     private final Vector mousePosition = new Vector();
@@ -37,7 +38,7 @@ public class Client extends JFrame implements MouseMotionListener {
 
     public Client(String hostname) {
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        setSize (Protocol.FIELD_WIDTH, Protocol.FIELD_HEIGHT);
+        setSize (Protocol.FIELD_WIDTH+BORDER_SIZE, Protocol.FIELD_HEIGHT+BORDER_SIZE);
         setVisible(true);
         addMouseMotionListener(this);
 
@@ -85,10 +86,10 @@ public class Client extends JFrame implements MouseMotionListener {
         g.setColor(Color.RED);
         g.fillOval(0, 0, 30, 30); // draw red circle
 
-        background = new BufferedImage(Protocol.FIELD_WIDTH, Protocol.FIELD_HEIGHT, BufferedImage.TYPE_INT_RGB);
+        background = new BufferedImage(Protocol.FIELD_WIDTH+BORDER_SIZE, Protocol.FIELD_HEIGHT+BORDER_SIZE, BufferedImage.TYPE_INT_RGB);
         g = background.createGraphics();
         g.setColor(BACKGROUND_COLOR);
-        g.fillRect(0, 0, Protocol.FIELD_WIDTH, Protocol.FIELD_HEIGHT);
+        g.fillRect(0, 0, Protocol.FIELD_WIDTH+BORDER_SIZE, Protocol.FIELD_HEIGHT+BORDER_SIZE);
     }
 
     private void run() {

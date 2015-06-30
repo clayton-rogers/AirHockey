@@ -7,6 +7,7 @@ import com.claytonrogers.AirHockey.Protocol.Messages.Message;
 import com.claytonrogers.AirHockey.Protocol.Messages.PingResponse;
 import com.claytonrogers.AirHockey.Protocol.Messages.PositionUpdate;
 import com.claytonrogers.AirHockey.Protocol.Messages.PositionUpdate.ObjectType;
+import com.claytonrogers.AirHockey.Protocol.Protocol;
 
 /**
  * Created by clayton on 2015-06-06.
@@ -16,7 +17,7 @@ public class AirHockeyGame {
     private static int FRAME_TIME_MS = 10;
 
     // This is the sum of the radius of the puck and player.
-    private static double COLLISION_RADIUS = 25.0;
+    private static double COLLISION_RADIUS = Protocol.PLAYER_RADIUS + Protocol.PUCK_RADIUS;
 
     // Number of frames before a collision can occur, after a collision has already occurred.
     private static int COLLISION_COOLDOWN = 25;
@@ -72,6 +73,28 @@ public class AirHockeyGame {
             if (collisionCooldownValue > 0) {
                 --collisionCooldownValue;
             }
+            // Check for collision with the walls
+            if (puckPosition.x < 0.0 + Protocol.PUCK_RADIUS) {
+                // Left wall
+                puckPosition.x = 0.0 + Protocol.PUCK_RADIUS;
+                puckVelocity.x *= -1.0;
+            }
+            if (puckPosition.x > Protocol.FIELD_WIDTH - Protocol.PUCK_RADIUS) {
+                // Right wall
+                puckPosition.x = Protocol.FIELD_WIDTH - Protocol.PUCK_RADIUS;
+                puckVelocity.x *= -1.0;
+            }
+            if (puckPosition.y < 0.0 + Protocol.PUCK_RADIUS) {
+                // Top wall
+                puckPosition.y = 0.0 + Protocol.PUCK_RADIUS;
+                puckVelocity.y *= -1.0;
+            }
+            if (puckPosition.y > Protocol.FIELD_HEIGHT - Protocol.PUCK_RADIUS) {
+                // Bottom wall
+                puckPosition.y = Protocol.FIELD_HEIGHT - Protocol.PUCK_RADIUS;
+                puckVelocity.y *= -1.0;
+            }
+
             // Check for player to puck collisions
             for (int i = 0; i < 2; i++) {
                 Vector puckToPlayer = new Vector(playerPositions[i]);
