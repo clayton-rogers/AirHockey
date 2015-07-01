@@ -245,8 +245,8 @@ public class Client extends JFrame implements MouseMotionListener {
     @Override
     public void mouseMoved(MouseEvent e) {
         synchronized (mousePosition) {
-            mousePosition.x = e.getX() - 15;
-            mousePosition.y = e.getY() - 15;
+            mousePosition.x = e.getX() - Protocol.PLAYER_RADIUS;
+            mousePosition.y = e.getY() - Protocol.PLAYER_RADIUS;
         }
     }
 }
