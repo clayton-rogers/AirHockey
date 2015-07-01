@@ -16,6 +16,7 @@ public enum MessageType {
     PING_RESPONSE,
 
     POSITION_UPDATE,
+    PLAYER_SCORE,
     GAME_END;
 
     public static MessageType parse(String messageTypeString) {
