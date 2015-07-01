@@ -29,7 +29,7 @@ class AirHockeyGame {
     private static final double COLLISION_RADIUS = Protocol.PLAYER_RADIUS + Protocol.PUCK_RADIUS;
 
     // Number of frames before a collision can occur, after a collision has already occurred.
-    private static final int COLLISION_COOLDOWN = 25;
+    private static final int COLLISION_COOLDOWN = 100;
 
     public void play (Connection[] playerConnections) {
 
