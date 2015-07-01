@@ -14,7 +14,7 @@ import com.claytonrogers.AirHockey.Protocol.Protocol;
  */
 public class AirHockeyGame {
 
-    private static int FRAME_TIME_MS = 10;
+    private static int FRAME_TIME_MS = 5;
 
     // This is the sum of the radius of the puck and player.
     private static double COLLISION_RADIUS = Protocol.PLAYER_RADIUS + Protocol.PUCK_RADIUS;
@@ -27,7 +27,7 @@ public class AirHockeyGame {
         boolean gameOver = false;
         int winner = 0;
         Vector puckPosition = new Vector(10.0,10.0); // in pixel (x right, y down)
-        Vector puckVelocity = new Vector(0.5,0.7);     // in pixel/frame
+        Vector puckVelocity = new Vector(1.5,1.5);     // in pixel/frame
         Vector[] playerPositions = new Vector[2];
         playerPositions[0] = new Vector();
         playerPositions[1] = new Vector();
@@ -95,33 +95,6 @@ public class AirHockeyGame {
                 puckVelocity.y *= -1.0;
             }
 
-            // Check for player to puck collisions
-            // TODO Fix collision handling
-            for (int i = 0; i < 2; i++) {
-                Vector puckToPlayer = new Vector(playerPositions[i]);
-                puckToPlayer.subInPlace(puckPosition);
-
-                if (puckToPlayer.magnitude() < COLLISION_RADIUS && collisionCooldownValue == 0) {
-                    // A collision has occurred.
-                    // We're going to multiply the velocity by 100 000 then divide it back out later.
-                    final int MULT_CONST = 10000;
-                    puckVelocity = puckVelocity.scalarMultiply(MULT_CONST);
-                    double numerator = puckVelocity.dotProduct(puckToPlayer) * 2.0;
-                    double denominator = puckToPlayer.dotProduct(puckToPlayer);
-                    puckToPlayer = puckToPlayer.scalarMultiply(numerator/denominator);
-                    puckToPlayer.subInPlace(puckVelocity);
-                    puckVelocity.assign(puckToPlayer);
-
-                    puckVelocity = puckVelocity.scalarDivide(MULT_CONST);
-
-                    collisionCooldownValue = COLLISION_COOLDOWN;
-
-                    // Only going to calculate one collision per frame.
-                    break;
-                }
-            }
-            // TODO check for winner
-
             // Send the state to the players
             for (int i = 0; i < 2; i++) {
                 if (!playerConnections[i].isGood()) {
@@ -143,6 +116,30 @@ public class AirHockeyGame {
                 message = new PositionUpdate(playerPositions[opponentIndex], ObjectType.OPPONENT);
                 playerConnections[i].send(message);
             }
+
+            // Check for player to puck collisions
+            // TODO Fix collision handling
+            for (int i = 0; i < 2; i++) {
+                Vector puckToPlayer = new Vector(playerPositions[i]);
+                puckToPlayer.subInPlace(puckPosition);
+
+                if (puckToPlayer.magnitude() < COLLISION_RADIUS && collisionCooldownValue == 0) {
+                    // A collision has occurred.
+                    Vector collisionNormal = puckToPlayer.normal();
+
+                    double numerator = puckVelocity.dotProduct(collisionNormal) * 2.0;
+                    double denominator = collisionNormal.dotProduct(collisionNormal);
+                    collisionNormal = collisionNormal.scalarMultiply(numerator/denominator);
+                    collisionNormal.subInPlace(puckVelocity);
+                    puckVelocity.assign(collisionNormal);
+
+                    collisionCooldownValue = COLLISION_COOLDOWN;
+
+                    // Only going to calculate one collision per frame.
+                    break;
+                }
+            }
+            // TODO check for winner
 
             // Wait around for the next frame.
             long endTime = System.currentTimeMillis();

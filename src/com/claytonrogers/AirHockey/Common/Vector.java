@@ -1,5 +1,8 @@
 package com.claytonrogers.AirHockey.Common;
 
+import static java.lang.Math.toDegrees;
+import static java.lang.Math.atan2;
+
 /**
  * Created by clayton on 2015-06-06.
  */
@@ -61,5 +64,23 @@ public class Vector {
         sum += x * v.x;
         sum += y * v.y;
         return sum;
+    }
+
+    public Vector normal() {
+        return new Vector(y, -x);
+    }
+
+    public double angle() {
+        return atan2(y, x);
+    }
+
+    @Override
+    public String toString() {
+        return "Vector{" +
+                "x=" + String.format("%.1f", x) +
+                ", y=" + String.format("%.1f", y) +
+                ", len=" + String.format("%.1f", magnitude()) +
+                ", ang=" + String.format("%.1f", toDegrees(angle())) +
+                '}';
     }
 }
