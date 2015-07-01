@@ -12,15 +12,15 @@ import com.claytonrogers.AirHockey.Protocol.Protocol;
 /**
  * Created by clayton on 2015-06-06.
  */
-public class AirHockeyGame {
+class AirHockeyGame {
 
-    private static int FRAME_TIME_MS = 5;
+    private static final int FRAME_TIME_MS = 5;
 
     // This is the sum of the radius of the puck and player.
-    private static double COLLISION_RADIUS = Protocol.PLAYER_RADIUS + Protocol.PUCK_RADIUS;
+    private static final double COLLISION_RADIUS = Protocol.PLAYER_RADIUS + Protocol.PUCK_RADIUS;
 
     // Number of frames before a collision can occur, after a collision has already occurred.
-    private static int COLLISION_COOLDOWN = 25;
+    private static final int COLLISION_COOLDOWN = 25;
 
     public void play (Connection[] playerConnections) {
 
@@ -108,11 +108,7 @@ public class AirHockeyGame {
 
                 // Send the opponent position
                 int opponentIndex;
-                if (i == 0) {
-                    opponentIndex = 1;
-                } else {
-                    opponentIndex = 0;
-                }
+                opponentIndex = i == 0 ? 1 : 0;
                 message = new PositionUpdate(playerPositions[opponentIndex], ObjectType.OPPONENT);
                 playerConnections[i].send(message);
             }

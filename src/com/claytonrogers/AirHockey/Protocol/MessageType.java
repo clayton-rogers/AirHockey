@@ -15,9 +15,9 @@ public enum MessageType {
     POSITION_UPDATE,
     GAME_END;
 
-    public static MessageType parseMessageType(String string) {
+    public static MessageType parse(String messageTypeString) {
         MessageType ret;
-        int a = Integer.parseInt(string);
+        int a = Integer.parseInt(messageTypeString);
         try {
             ret = MessageType.values()[a];
         } catch (ArrayIndexOutOfBoundsException e) {

@@ -3,7 +3,6 @@ package com.claytonrogers.AirHockey.Protocol.Messages;
 import com.claytonrogers.AirHockey.Protocol.MessageType;
 
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 

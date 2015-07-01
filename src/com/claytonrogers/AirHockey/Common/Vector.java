@@ -7,8 +7,8 @@ import static java.lang.Math.atan2;
  * Created by clayton on 2015-06-06.
  */
 public class Vector {
-    public double x = 0;
-    public double y = 0;
+    public double x;
+    public double y;
 
     public Vector() {}
     public Vector(double x, double y) {

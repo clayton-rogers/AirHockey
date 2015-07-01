@@ -10,13 +10,15 @@ import java.net.Socket;
 /**
  * Created by clayton on 2015-06-06.
  */
-public class Server {
+final class Server {
+    private Server() {
+    }
+
     public static void main (String[] args) {
         System.out.println("Server starting...");
 
         try (ServerSocket serverSocket = new ServerSocket(Protocol.PORT_NUMBER)) {
             Connection player1 = null;
-            Connection player2;
             while (true) {
                 try {
                     System.out.println("Waiting for players to connect...");
@@ -26,7 +28,7 @@ public class Server {
                         player1 = new Connection(socket);
                     } else {
                         System.out.println("Player 2 connected.");
-                        player2 = new Connection(socket);
+                        Connection player2 = new Connection(socket);
                         System.out.println("Two players connected, starting game.");
                         Game game = new Game(player1, player2);
                         game.start();

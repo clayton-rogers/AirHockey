@@ -14,7 +14,7 @@ public class Connection implements Closeable {
 
     private BufferedReader reader;
     private PrintWriter writer;
-    public Queue<Message> receivedMessages = new ConcurrentLinkedQueue<>();
+    public final Queue<Message> receivedMessages = new ConcurrentLinkedQueue<>();
 
     private final Socket socket;
 

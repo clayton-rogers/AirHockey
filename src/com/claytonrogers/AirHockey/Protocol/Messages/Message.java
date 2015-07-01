@@ -10,16 +10,16 @@ import java.io.PrintWriter;
  * Created by clayton on 2015-06-06.
  */
 public abstract class Message {
-    protected MessageType messageType;
+    private final MessageType messageType;
 
-    public Message(MessageType messageType) {
+    Message(MessageType messageType) {
         this.messageType = messageType;
     }
 
     public static Message parseMessage (BufferedReader reader) {
         MessageType messageType;
         try {
-            messageType = MessageType.parseMessageType(reader.readLine());
+            messageType = MessageType.parse(reader.readLine());
         } catch (IOException e) {
             System.out.println(e);
             System.out.println("IO error occurred while reading the message type.");

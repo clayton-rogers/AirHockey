@@ -4,6 +4,7 @@ import com.claytonrogers.AirHockey.Common.Vector;
 import com.claytonrogers.AirHockey.Protocol.Connection;
 import com.claytonrogers.AirHockey.Protocol.MessageType;
 import com.claytonrogers.AirHockey.Protocol.Messages.*;
+import com.claytonrogers.AirHockey.Protocol.Messages.PositionUpdate.ObjectType;
 import com.claytonrogers.AirHockey.Protocol.Protocol;
 
 import javax.swing.*;
@@ -15,28 +16,27 @@ import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.net.Socket;
+import java.net.UnknownHostException;
 
 /**
  * Created by clayton on 2015-06-06.
  */
-public class Client extends JFrame implements MouseMotionListener {
+final class Client extends JFrame implements MouseMotionListener {
 
-    private static int FRAME_TIME = 17; // just a bit slower than 60 fps
-    private static Color BACKGROUND_COLOR = Color.LIGHT_GRAY;
-    private static Color CLEAR = new Color(0,0,0,0);
+    private static final int FRAME_TIME = 17; // just a bit slower than 60 fps
+    private static final Color BACKGROUND_COLOR = Color.LIGHT_GRAY;
+    private static final Color CLEAR = new Color(0,0,0,0);
     private static final int BORDER_SIZE = 18; // pixels
 
     private Connection serverConnection;
     private final Vector mousePosition = new Vector();
 
-    private BufferedImage puckSprite;
-    private BufferedImage playerSprite;
-    private BufferedImage opponentSprite;
-    private BufferedImage background;
+    private final BufferedImage puckSprite;
+    private final BufferedImage playerSprite;
+    private final BufferedImage opponentSprite;
+    private final BufferedImage background;
 
-
-
-    public Client(String hostname) {
+    private Client() {
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setSize (Protocol.FIELD_WIDTH+BORDER_SIZE, Protocol.FIELD_HEIGHT+BORDER_SIZE);
         setVisible(true);
@@ -51,17 +51,6 @@ public class Client extends JFrame implements MouseMotionListener {
         }
 
         createBufferStrategy(2);
-
-        // Connect to the server.
-        try {
-            Socket socket = new Socket(hostname, Protocol.PORT_NUMBER);
-            serverConnection = new Connection(socket);
-        } catch (IOException e) {
-            JOptionPane.showMessageDialog(this, "Could not connect to the server.");
-            // Close since the connection is no longer good. if the connection failed.
-            dispatchEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSING));
-        }
-
 
         // Render all the sprites
         Graphics2D g;
@@ -150,8 +139,8 @@ public class Client extends JFrame implements MouseMotionListener {
             }
 
             // Send the player position to the server
-            Message playerPositionMessage = new PositionUpdate(playerPosition, PositionUpdate.ObjectType.PLAYER);
-            serverConnection.send(playerPositionMessage);
+            PositionUpdate player = new PositionUpdate(playerPosition, ObjectType.PLAYER);
+            serverConnection.send(player);
 
             // Process any messages from the server
             while (true) {
@@ -228,12 +217,28 @@ public class Client extends JFrame implements MouseMotionListener {
         dispatchEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSING));
     }
 
+    private void connect (String hostname) {
+        // Connect to the server.
+        try {
+            Socket socket = new Socket(hostname, Protocol.PORT_NUMBER);
+            serverConnection = new Connection(socket);
+        } catch (UnknownHostException e) {
+            JOptionPane.showMessageDialog(this, "Could not find the server.");
+            dispatchEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSING));
+        } catch (IOException e) {
+            JOptionPane.showMessageDialog(this, "Could not connect to the server.");
+            // Close since the connection is no longer good. if the connection failed.
+            dispatchEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSING));
+        }
+    }
+
     public static void main (String[] args) {
         String hostname = JOptionPane.showInputDialog("Enter server IP:");
-        if (hostname.equals("")) {
+        if (hostname.isEmpty()) {
             hostname = "localhost";
         }
-        Client client = new Client(hostname);
+        Client client = new Client();
+        client.connect(hostname);
         client.run();
     }
 

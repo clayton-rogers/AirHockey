@@ -5,8 +5,8 @@ import com.claytonrogers.AirHockey.Protocol.MessageType;
 /**
  * Created by clayton on 2015-06-06.
  */
-public class PingRequest extends Message {
-    public PingRequest() {
+class PingRequest extends Message {
+    PingRequest() {
         super(MessageType.PING_REQUEST);
     }
 }
