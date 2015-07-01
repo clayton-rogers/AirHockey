@@ -7,7 +7,9 @@ import java.io.IOException;
 import java.io.PrintWriter;
 
 /**
- * Created by clayton on 2015-06-06.
+ * Message used by the server to tell the client that the game has ended and which player has won.
+ *
+ * <br><br>Created by clayton on 2015-06-06.
  */
 public class GameEnd extends Message{
 

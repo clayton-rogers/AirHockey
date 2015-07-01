@@ -8,7 +8,9 @@ import java.net.ServerSocket;
 import java.net.Socket;
 
 /**
- * Created by clayton on 2015-06-06.
+ * The server which listens for new connections then starts a game when there are enough players connected.
+ *
+ * <br><br>Created by clayton on 2015-06-06.
  */
 final class Server {
     private Server() {

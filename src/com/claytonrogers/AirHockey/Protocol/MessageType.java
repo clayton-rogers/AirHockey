@@ -1,7 +1,10 @@
 package com.claytonrogers.AirHockey.Protocol;
 
 /**
- * Created by clayton on 2015-06-06.
+ * The enumeration of all the possible message types. If you change this file, you should increment
+ * the protocol version number in the Protocol class.
+ *
+ * <br><br>Created by clayton on 2015-06-06.
  */
 public enum MessageType {
     VERSION_REQUEST,

@@ -10,7 +10,10 @@ import com.claytonrogers.AirHockey.Protocol.Messages.PositionUpdate.ObjectType;
 import com.claytonrogers.AirHockey.Protocol.Protocol;
 
 /**
- * Created by clayton on 2015-06-06.
+ * The air hockey game. Handles the propagation of pieces, collisions, and receiving and sending
+ * information to the clients.
+ *
+ * <br><br>Created by clayton on 2015-06-06.
  */
 class AirHockeyGame {
 

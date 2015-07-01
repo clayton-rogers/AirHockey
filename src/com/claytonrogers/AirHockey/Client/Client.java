@@ -19,7 +19,10 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 
 /**
- * Created by clayton on 2015-06-06.
+ * Main client class which creates the window, gets mouse position, updates entities on the screen,
+ * and communicates with the server for updates.
+ *
+ * <br><br> Created by clayton on 2015-06-06.
  */
 final class Client extends JFrame implements MouseMotionListener {
 

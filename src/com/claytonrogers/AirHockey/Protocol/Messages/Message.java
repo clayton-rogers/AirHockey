@@ -7,7 +7,9 @@ import java.io.IOException;
 import java.io.PrintWriter;
 
 /**
- * Created by clayton on 2015-06-06.
+ * The generic message which must be inherited to be used with the connection class.
+ *
+ * <br><br>Created by clayton on 2015-06-06.
  */
 public abstract class Message {
     private final MessageType messageType;

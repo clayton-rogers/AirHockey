@@ -4,6 +4,19 @@ import static java.lang.Math.toDegrees;
 import static java.lang.Math.atan2;
 
 /**
+ * Two dimensional vector class which supports all the basic operations. Some operations come in two
+ * forms:
+ * <br><br>
+ * {@code c = a.add(b); }
+ * <br>
+ * - 'c' is now a new vector which is the sum of 'a' and 'b', but 'a' and 'b' have not been
+ * modified.
+ * <br><br>
+ * {@code a.addInPlace(b) };
+ * <br>
+ * - Here 'a' is modified to be the sum of 'a' and 'b'. This will generally be more efficient since
+ * it does not involve creating a new vector.
+ * <br><br>
  * Created by clayton on 2015-06-06.
  */
 public class Vector {

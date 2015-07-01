@@ -8,7 +8,9 @@ import com.claytonrogers.AirHockey.Protocol.Messages.VersionResponse;
 import com.claytonrogers.AirHockey.Protocol.Protocol;
 
 /**
- * Created by clayton on 2015-06-06.
+ * Generic game which validates the protocol versions and then starts the actual game.
+ *
+ * <br><br>Created by clayton on 2015-06-06.
  */
 class Game extends Thread {
 
