@@ -8,7 +8,9 @@ import java.io.IOException;
 import java.io.PrintWriter;
 
 /**
- * Created by clayton on 2015-06-07.
+ * Used the send the position of one of the many objects.
+ *
+ * <br><br>Created by clayton on 2015-06-07.
  */
 public class PositionUpdate extends Message{
     public enum ObjectType {

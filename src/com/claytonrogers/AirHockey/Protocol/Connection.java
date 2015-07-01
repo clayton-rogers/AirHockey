@@ -8,13 +8,15 @@ import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 /**
- * Created by clayton on 2015-06-06.
+ * A generic connection which is used to send messages between the server and client.
+ *
+ * <br><br>Created by clayton on 2015-06-06.
  */
 public class Connection implements Closeable {
 
     private BufferedReader reader;
     private PrintWriter writer;
-    public Queue<Message> receivedMessages = new ConcurrentLinkedQueue<>();
+    public final Queue<Message> receivedMessages = new ConcurrentLinkedQueue<>();
 
     private final Socket socket;
 

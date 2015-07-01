@@ -3,12 +3,14 @@ package com.claytonrogers.AirHockey.Protocol.Messages;
 import com.claytonrogers.AirHockey.Protocol.MessageType;
 
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 
 /**
- * Created by clayton on 2015-06-06.
+ * The client response to a server's version request. Used to validate that the server and client
+ * are using the same protocol version.
+ *
+ * <br><br>Created by clayton on 2015-06-06.
  */
 public class VersionResponse extends Message{
 

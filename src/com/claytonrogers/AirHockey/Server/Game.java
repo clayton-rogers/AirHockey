@@ -8,13 +8,15 @@ import com.claytonrogers.AirHockey.Protocol.Messages.VersionResponse;
 import com.claytonrogers.AirHockey.Protocol.Protocol;
 
 /**
- * Created by clayton on 2015-06-06.
+ * Generic game which validates the protocol versions and then starts the actual game.
+ *
+ * <br><br>Created by clayton on 2015-06-06.
  */
-public class Game extends Thread {
+class Game extends Thread {
 
-    private Connection[] players = new Connection[2];
+    private final Connection[] players = new Connection[2];
 
-    public Game(Connection player1, Connection player2) {
+    Game(Connection player1, Connection player2) {
         players[0] = player1;
         players[1] = player2;
     }
@@ -36,16 +38,16 @@ public class Game extends Thread {
                 message = player.receivedMessages.poll();
             }
             VersionResponse versionResponse = (VersionResponse) message;
-            if (!versionResponse.getVersion().equals(Protocol.PROTOCOL_VERSION)) {
+            if (versionResponse.getVersion().equals(Protocol.PROTOCOL_VERSION)) {
+                System.out.println("Client does have correct version.");
+            } else {
                 System.out.println("Client does not have correct version, disconnecting.");
-                System.out.println("Expected: |" + Protocol.PROTOCOL_VERSION + "| Got: |" + versionResponse.getVersion() + "|");
+                System.out.println("Expected: |" + Protocol.PROTOCOL_VERSION + "| Got: |" + versionResponse.getVersion() + '|');
                 Disconnect disconnectMessage = new Disconnect();
                 for (Connection myPlayer : players) {
                     myPlayer.send(disconnectMessage);
                 }
                 return;
-            } else {
-                System.out.println("Client does have correct version.");
             }
         }
 

@@ -1,7 +1,10 @@
 package com.claytonrogers.AirHockey.Protocol;
 
 /**
- * Created by clayton on 2015-06-06.
+ * The enumeration of all the possible message types. If you change this file, you should increment
+ * the protocol version number in the Protocol class.
+ *
+ * <br><br>Created by clayton on 2015-06-06.
  */
 public enum MessageType {
     VERSION_REQUEST,
@@ -15,9 +18,9 @@ public enum MessageType {
     POSITION_UPDATE,
     GAME_END;
 
-    public static MessageType parseMessageType(String string) {
+    public static MessageType parse(String messageTypeString) {
         MessageType ret;
-        int a = Integer.parseInt(string);
+        int a = Integer.parseInt(messageTypeString);
         try {
             ret = MessageType.values()[a];
         } catch (ArrayIndexOutOfBoundsException e) {
