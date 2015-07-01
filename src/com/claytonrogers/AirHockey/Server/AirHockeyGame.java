@@ -96,6 +96,7 @@ public class AirHockeyGame {
             }
 
             // Check for player to puck collisions
+            // TODO Fix collision handling
             for (int i = 0; i < 2; i++) {
                 Vector puckToPlayer = new Vector(playerPositions[i]);
                 puckToPlayer.subInPlace(puckPosition);
@@ -119,8 +120,6 @@ public class AirHockeyGame {
                     break;
                 }
             }
-
-            // TODO check for collisions
             // TODO check for winner
 
             // Send the state to the players
