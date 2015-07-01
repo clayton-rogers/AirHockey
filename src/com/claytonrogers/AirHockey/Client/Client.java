@@ -29,7 +29,6 @@ final class Client extends JFrame implements MouseMotionListener {
     private static final int FRAME_TIME = 17; // just a bit slower than 60 fps
     private static final Color BACKGROUND_COLOR = Color.LIGHT_GRAY;
     private static final Color CLEAR = new Color(0,0,0,0);
-    private static final int BORDER_SIZE = 18; // pixels
 
     private Connection serverConnection;
     private final Vector mousePosition = new Vector();
@@ -41,7 +40,7 @@ final class Client extends JFrame implements MouseMotionListener {
 
     private Client() {
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        setSize (Protocol.FIELD_WIDTH+BORDER_SIZE, Protocol.FIELD_HEIGHT+BORDER_SIZE);
+        setSize (Protocol.FIELD_WIDTH, Protocol.FIELD_HEIGHT);
         setVisible(true);
         addMouseMotionListener(this);
 
@@ -96,14 +95,14 @@ final class Client extends JFrame implements MouseMotionListener {
                 Protocol.PLAYER_RADIUS*2,
                 Protocol.PLAYER_RADIUS*2); // draw red circle
 
-        background = new BufferedImage(Protocol.FIELD_WIDTH+BORDER_SIZE,
-                                       Protocol.FIELD_HEIGHT+BORDER_SIZE,
+        background = new BufferedImage(Protocol.FIELD_WIDTH,
+                                       Protocol.FIELD_HEIGHT,
                                        BufferedImage.TYPE_INT_RGB);
         g = background.createGraphics();
         g.setColor(BACKGROUND_COLOR);
         g.fillRect(0, 0,
-                Protocol.FIELD_WIDTH+BORDER_SIZE,
-                Protocol.FIELD_HEIGHT+BORDER_SIZE);
+                Protocol.FIELD_WIDTH,
+                Protocol.FIELD_HEIGHT);
     }
 
     private void run() {
@@ -183,9 +182,15 @@ final class Client extends JFrame implements MouseMotionListener {
                 Graphics2D g2 = (Graphics2D) g;
 
                 g2.drawImage(background, null, 0, 0);
-                g2.drawImage(puckSprite, null, (int)puckPosition.x, (int)puckPosition.y);
-                g2.drawImage(playerSprite, null, (int)playerPosition.x, (int)playerPosition.y);
-                g2.drawImage(opponentSprite, null, (int)opponentPosition.x, (int)opponentPosition.y);
+                g2.drawImage(puckSprite, null,
+                        (int)(puckPosition.x-Protocol.PUCK_RADIUS),
+                        (int)(puckPosition.y-Protocol.PUCK_RADIUS));
+                g2.drawImage(playerSprite, null,
+                        (int)(playerPosition.x-Protocol.PLAYER_RADIUS),
+                        (int)(playerPosition.y-Protocol.PLAYER_RADIUS));
+                g2.drawImage(opponentSprite, null,
+                        (int)(opponentPosition.x-Protocol.PLAYER_RADIUS),
+                        (int)(opponentPosition.y-Protocol.PLAYER_RADIUS));
 
             } finally {
                 if (g != null) {
@@ -253,8 +258,8 @@ final class Client extends JFrame implements MouseMotionListener {
     @Override
     public void mouseMoved(MouseEvent e) {
         synchronized (mousePosition) {
-            mousePosition.x = e.getX() - Protocol.PLAYER_RADIUS;
-            mousePosition.y = e.getY() - Protocol.PLAYER_RADIUS;
+            mousePosition.x = e.getX();
+            mousePosition.y = e.getY();
         }
     }
 }

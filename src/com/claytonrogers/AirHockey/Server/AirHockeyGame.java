@@ -17,13 +17,19 @@ import com.claytonrogers.AirHockey.Protocol.Protocol;
  */
 class AirHockeyGame {
 
-    private static final int FRAME_TIME_MS = 5;
+    private static final int    FRAME_TIME_MS    = 5;
+    // These are the positions of the walls.
+    // For checking collisions with the wall, you still have to account for the size of the puck.
+    private static final double TOP_WALL_POS     = 31.0;
+    private static final double LEFT_WALL_POS    = 8.0;
+    private static final double BOTTOM_WALL_POS  = Protocol.FIELD_HEIGHT - 9;
+    private static final double RIGHT_WALL_POS   = Protocol.FIELD_WIDTH - 9;
 
     // This is the sum of the radius of the puck and player.
     private static final double COLLISION_RADIUS = Protocol.PLAYER_RADIUS + Protocol.PUCK_RADIUS;
 
     // Number of frames before a collision can occur, after a collision has already occurred.
-    private static final int COLLISION_COOLDOWN = 25;
+    private static final int COLLISION_COOLDOWN = 100;
 
     public void play (Connection[] playerConnections) {
 
@@ -77,24 +83,24 @@ class AirHockeyGame {
                 --collisionCooldownValue;
             }
             // Check for collision with the walls
-            if (puckPosition.x < 0.0 + Protocol.PUCK_RADIUS) {
+            if (puckPosition.x < LEFT_WALL_POS + Protocol.PUCK_RADIUS) {
                 // Left wall
-                puckPosition.x = 0.0 + Protocol.PUCK_RADIUS;
+                puckPosition.x = LEFT_WALL_POS + Protocol.PUCK_RADIUS;
                 puckVelocity.x *= -1.0;
             }
-            if (puckPosition.x > Protocol.FIELD_WIDTH - Protocol.PUCK_RADIUS) {
+            if (puckPosition.x > RIGHT_WALL_POS - Protocol.PUCK_RADIUS) {
                 // Right wall
-                puckPosition.x = Protocol.FIELD_WIDTH - Protocol.PUCK_RADIUS;
+                puckPosition.x = RIGHT_WALL_POS - Protocol.PUCK_RADIUS;
                 puckVelocity.x *= -1.0;
             }
-            if (puckPosition.y < 0.0 + Protocol.PUCK_RADIUS) {
+            if (puckPosition.y < TOP_WALL_POS + Protocol.PUCK_RADIUS) {
                 // Top wall
-                puckPosition.y = 0.0 + Protocol.PUCK_RADIUS;
+                puckPosition.y = TOP_WALL_POS + Protocol.PUCK_RADIUS;
                 puckVelocity.y *= -1.0;
             }
-            if (puckPosition.y > Protocol.FIELD_HEIGHT - Protocol.PUCK_RADIUS) {
+            if (puckPosition.y > BOTTOM_WALL_POS - Protocol.PUCK_RADIUS) {
                 // Bottom wall
-                puckPosition.y = Protocol.FIELD_HEIGHT - Protocol.PUCK_RADIUS;
+                puckPosition.y = BOTTOM_WALL_POS - Protocol.PUCK_RADIUS;
                 puckVelocity.y *= -1.0;
             }
 
