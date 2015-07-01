@@ -14,7 +14,7 @@ import com.claytonrogers.AirHockey.Protocol.Protocol;
  */
 public class AirHockeyGame {
 
-    private static int FRAME_TIME_MS = 10;
+    private static int FRAME_TIME_MS = 5;
 
     // This is the sum of the radius of the puck and player.
     private static double COLLISION_RADIUS = Protocol.PLAYER_RADIUS + Protocol.PUCK_RADIUS;
