@@ -32,8 +32,8 @@ class AirHockeyGame {
 
         boolean gameOver = false;
         int winner = 0;
-        Vector puckPosition = new Vector(10.0,10.0); // in pixel (x right, y down)
         Vector puckVelocity = new Vector(1.5,1.5);     // in pixel/frame
+        Vector puckPosition = new Vector(50.0,50.0); // in pixel (x right, y down)
         Vector[] playerPositions = new Vector[2];
         playerPositions[0] = new Vector();
         playerPositions[1] = new Vector();
