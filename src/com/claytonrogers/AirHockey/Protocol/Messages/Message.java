@@ -43,6 +43,8 @@ public abstract class Message {
                 return new PositionUpdate(reader);
             case GAME_END:
                 return new GameEnd(reader);
+            case PLAYER_SCORE:
+                return new PlayerScore(reader);
             case NULL:
                 return null;
         }

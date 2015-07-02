@@ -2,10 +2,7 @@ package com.claytonrogers.AirHockey.Server;
 
 import com.claytonrogers.AirHockey.Common.Vector;
 import com.claytonrogers.AirHockey.Protocol.Connection;
-import com.claytonrogers.AirHockey.Protocol.Messages.GameEnd;
-import com.claytonrogers.AirHockey.Protocol.Messages.Message;
-import com.claytonrogers.AirHockey.Protocol.Messages.PingResponse;
-import com.claytonrogers.AirHockey.Protocol.Messages.PositionUpdate;
+import com.claytonrogers.AirHockey.Protocol.Messages.*;
 import com.claytonrogers.AirHockey.Protocol.Messages.PositionUpdate.ObjectType;
 import com.claytonrogers.AirHockey.Protocol.Protocol;
 
@@ -35,12 +32,15 @@ class AirHockeyGame {
 
         boolean gameOver = false;
         int winner = 0;
-        Vector puckPosition = new Vector(10.0,10.0); // in pixel (x right, y down)
-        Vector puckVelocity = new Vector(1.5,1.5);     // in pixel/frame
+        Vector puckPosition = new Vector(50.0,50.0); // in pixel (x right, y down)
+        Vector puckVelocity = new Vector(2.0,2.0);     // in pixel/frame
         Vector[] playerPositions = new Vector[2];
         playerPositions[0] = new Vector();
         playerPositions[1] = new Vector();
         int collisionCooldownValue = 0;
+        int[] playerScore = new int[2];
+        playerScore[0] = 0;
+        playerScore[1] = 0;
 
         // Main game loop
         while (!gameOver) {
@@ -97,11 +97,23 @@ class AirHockeyGame {
                 // Top wall
                 puckPosition.y = TOP_WALL_POS + Protocol.PUCK_RADIUS;
                 puckVelocity.y *= -1.0;
+                playerScore[0]++;
+                // Send the score to the client
+                PlayerScore score = new PlayerScore(playerScore[0], playerScore[1]);
+                for (int i = 0; i < 2; i++) {
+                    playerConnections[i].send(score);
+                }
             }
             if (puckPosition.y > BOTTOM_WALL_POS - Protocol.PUCK_RADIUS) {
                 // Bottom wall
                 puckPosition.y = BOTTOM_WALL_POS - Protocol.PUCK_RADIUS;
                 puckVelocity.y *= -1.0;
+                playerScore[1]++;
+                // Send the score to the client
+                PlayerScore score = new PlayerScore(playerScore[0], playerScore[1]);
+                for (int i = 0; i < 2; i++) {
+                    playerConnections[i].send(score);
+                }
             }
 
             // Send the state to the players

@@ -127,6 +127,9 @@ final class Client extends JFrame implements MouseMotionListener {
         Vector playerPosition = new Vector();
         Vector puckPosition = new Vector();
         Vector opponentPosition = new Vector();
+        int[] playerScore = new int[2];
+        playerScore[0] = 0;
+        playerScore[1] = 0;
 
         boolean gameIsGood = true;
         int winner = 0;
@@ -170,6 +173,10 @@ final class Client extends JFrame implements MouseMotionListener {
                         winner = ((GameEnd)message).getWinner();
                         gameIsGood = false;
                         break;
+                    case PLAYER_SCORE:
+                        playerScore[0] = ((PlayerScore)message).getPlayer1Score();
+                        playerScore[1] = ((PlayerScore)message).getPlayer2Score();
+                        break;
                 }
                 serverConnection.receivedMessages.remove();
             }
@@ -191,6 +198,10 @@ final class Client extends JFrame implements MouseMotionListener {
                 g2.drawImage(opponentSprite, null,
                         (int)(opponentPosition.x-Protocol.PLAYER_RADIUS),
                         (int)(opponentPosition.y-Protocol.PLAYER_RADIUS));
+
+                // Draw the scores on screen
+                g2.drawString("Score: " + playerScore[0], 20, 50);
+                g2.drawString("Score: " + playerScore[1], 20, Protocol.FIELD_HEIGHT-20);
 
             } finally {
                 if (g != null) {
