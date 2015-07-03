@@ -29,6 +29,9 @@ final class Client extends JFrame implements MouseMotionListener {
     private static final int FRAME_TIME = 17; // just a bit slower than 60 fps
     private static final Color BACKGROUND_COLOR = Color.LIGHT_GRAY;
     private static final Color CLEAR = new Color(0,0,0,0);
+    private static final Vector  FIELD_OFFSET = new Vector(30.0,50.0);
+    private static final int WINDOW_WIDTH  = Protocol.FIELD_WIDTH  + 2 * (int)FIELD_OFFSET.x;
+    private static final int WINDOW_HEIGHT = Protocol.FIELD_HEIGHT + 2 * (int)FIELD_OFFSET.y;
 
     private Connection serverConnection;
     private final Vector mousePosition = new Vector();
@@ -40,7 +43,7 @@ final class Client extends JFrame implements MouseMotionListener {
 
     private Client() {
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        setSize (Protocol.FIELD_WIDTH, Protocol.FIELD_HEIGHT);
+        setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
         setVisible(true);
         addMouseMotionListener(this);
 
@@ -61,48 +64,46 @@ final class Client extends JFrame implements MouseMotionListener {
                                        BufferedImage.TYPE_INT_ARGB);
         g = puckSprite.createGraphics();
         g.setColor(CLEAR);
-        g.fillRect(0,0,
-                Protocol.PUCK_RADIUS*2,
-                Protocol.PUCK_RADIUS*2);
+        g.fillRect(0, 0,
+                Protocol.PUCK_RADIUS * 2,
+                Protocol.PUCK_RADIUS * 2);
         g.setColor(Color.BLUE);
         g.fillOval(0, 0,
-                Protocol.PUCK_RADIUS*2,
-                Protocol.PUCK_RADIUS*2); // draw blue circle
+                Protocol.PUCK_RADIUS * 2,
+                Protocol.PUCK_RADIUS * 2); // draw blue circle
 
         playerSprite = new BufferedImage(Protocol.PLAYER_RADIUS*2,
                                          Protocol.PLAYER_RADIUS*2,
                                          BufferedImage.TYPE_INT_ARGB);
         g = playerSprite.createGraphics();
         g.setColor(CLEAR);
-        g.fillRect(0,0,
-                Protocol.PLAYER_RADIUS*2,
-                Protocol.PLAYER_RADIUS*2);
+        g.fillRect(0, 0,
+                Protocol.PLAYER_RADIUS * 2,
+                Protocol.PLAYER_RADIUS * 2);
         g.setColor(Color.BLACK);
         g.fillOval(0, 0,
-                Protocol.PLAYER_RADIUS*2,
-                Protocol.PLAYER_RADIUS*2); // draw black circle
+                Protocol.PLAYER_RADIUS * 2,
+                Protocol.PLAYER_RADIUS * 2); // draw black circle
 
         opponentSprite = new BufferedImage(Protocol.PLAYER_RADIUS*2,
                                            Protocol.PLAYER_RADIUS*2,
                                            BufferedImage.TYPE_INT_ARGB);
         g = opponentSprite.createGraphics();
         g.setColor(CLEAR);
-        g.fillRect(0,0,
-                Protocol.PLAYER_RADIUS*2,
-                Protocol.PLAYER_RADIUS*2);
+        g.fillRect(0, 0,
+                Protocol.PLAYER_RADIUS * 2,
+                Protocol.PLAYER_RADIUS * 2);
         g.setColor(Color.RED);
         g.fillOval(0, 0,
-                Protocol.PLAYER_RADIUS*2,
-                Protocol.PLAYER_RADIUS*2); // draw red circle
+                Protocol.PLAYER_RADIUS * 2,
+                Protocol.PLAYER_RADIUS * 2); // draw red circle
 
-        background = new BufferedImage(Protocol.FIELD_WIDTH,
-                                       Protocol.FIELD_HEIGHT,
+        background = new BufferedImage(WINDOW_WIDTH,
+                                       WINDOW_HEIGHT,
                                        BufferedImage.TYPE_INT_RGB);
         g = background.createGraphics();
         g.setColor(BACKGROUND_COLOR);
-        g.fillRect(0, 0,
-                Protocol.FIELD_WIDTH,
-                Protocol.FIELD_HEIGHT);
+        g.fillRect(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
     }
 
     private void run() {
@@ -189,19 +190,24 @@ final class Client extends JFrame implements MouseMotionListener {
                 Graphics2D g2 = (Graphics2D) g;
 
                 g2.drawImage(background, null, 0, 0);
+                g2.drawRect( // Draw the border around the playable area
+                        (int)FIELD_OFFSET.x,
+                        (int)FIELD_OFFSET.y,
+                        Protocol.FIELD_WIDTH,
+                        Protocol.FIELD_HEIGHT);
                 g2.drawImage(puckSprite, null,
-                        (int)(puckPosition.x-Protocol.PUCK_RADIUS),
-                        (int)(puckPosition.y-Protocol.PUCK_RADIUS));
+                        (int)(puckPosition.x-Protocol.PUCK_RADIUS + FIELD_OFFSET.x),
+                        (int)(puckPosition.y-Protocol.PUCK_RADIUS + FIELD_OFFSET.y));
                 g2.drawImage(playerSprite, null,
-                        (int)(playerPosition.x-Protocol.PLAYER_RADIUS),
-                        (int)(playerPosition.y-Protocol.PLAYER_RADIUS));
+                        (int)(playerPosition.x-Protocol.PLAYER_RADIUS + FIELD_OFFSET.x),
+                        (int)(playerPosition.y-Protocol.PLAYER_RADIUS + FIELD_OFFSET.y));
                 g2.drawImage(opponentSprite, null,
-                        (int)(opponentPosition.x-Protocol.PLAYER_RADIUS),
-                        (int)(opponentPosition.y-Protocol.PLAYER_RADIUS));
+                        (int)(opponentPosition.x-Protocol.PLAYER_RADIUS + FIELD_OFFSET.x),
+                        (int)(opponentPosition.y-Protocol.PLAYER_RADIUS + FIELD_OFFSET.y));
 
                 // Draw the scores on screen
-                g2.drawString("Score: " + playerScore[0], 20, 50);
-                g2.drawString("Score: " + playerScore[1], 20, Protocol.FIELD_HEIGHT-20);
+                g2.drawString("Score: " + playerScore[0], 40, (int)FIELD_OFFSET.y+20);
+                g2.drawString("Score: " + playerScore[1], 40, (int)FIELD_OFFSET.y + Protocol.FIELD_HEIGHT-10);
 
             } finally {
                 if (g != null) {
@@ -269,8 +275,8 @@ final class Client extends JFrame implements MouseMotionListener {
     @Override
     public void mouseMoved(MouseEvent e) {
         synchronized (mousePosition) {
-            mousePosition.x = e.getX();
-            mousePosition.y = e.getY();
+            mousePosition.x = e.getX() - FIELD_OFFSET.x;
+            mousePosition.y = e.getY() - FIELD_OFFSET.y;
         }
     }
 }

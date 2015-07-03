@@ -17,10 +17,10 @@ class AirHockeyGame {
     private static final int    FRAME_TIME_MS    = 5;
     // These are the positions of the walls.
     // For checking collisions with the wall, you still have to account for the size of the puck.
-    private static final double TOP_WALL_POS     = 31.0;
-    private static final double LEFT_WALL_POS    = 8.0;
-    private static final double BOTTOM_WALL_POS  = Protocol.FIELD_HEIGHT - 9;
-    private static final double RIGHT_WALL_POS   = Protocol.FIELD_WIDTH - 9;
+    private static final double TOP_WALL_POS     = 0.0;
+    private static final double LEFT_WALL_POS    = 0.0;
+    private static final double BOTTOM_WALL_POS  = Protocol.FIELD_HEIGHT;
+    private static final double RIGHT_WALL_POS   = Protocol.FIELD_WIDTH;
 
     // This is the sum of the radius of the puck and player.
     private static final double COLLISION_RADIUS = Protocol.PLAYER_RADIUS + Protocol.PUCK_RADIUS;
