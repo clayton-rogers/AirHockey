@@ -42,6 +42,7 @@ final class Client extends JFrame implements MouseMotionListener {
     private final BufferedImage background;
 
     private Client() {
+        // TODO make the client fake both players being on the bottom.
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
         setVisible(true);
@@ -142,6 +143,7 @@ final class Client extends JFrame implements MouseMotionListener {
             // Get the new position of the player
             synchronized (mousePosition) {
                 playerPosition.assign(mousePosition);
+                // TODO confine players to their half.
             }
 
             // Send the player position to the server

@@ -52,6 +52,7 @@ class Game extends Thread {
         }
 
         System.out.println("Clients have been validated.");
+        // TODO: Tell the players which side they are.
 
         // Start the actual game
         new AirHockeyGame().play(players);
