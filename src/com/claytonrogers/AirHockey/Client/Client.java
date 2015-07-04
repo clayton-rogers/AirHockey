@@ -233,6 +233,8 @@ final class Client extends JFrame implements MouseMotionListener {
             }
         }
 
+        // TODO add a way to restart the game
+
         // Tell which player won.
         if (winner == 0) {
             JOptionPane.showMessageDialog(this, "Disconnected from server. There was no winner.");
@@ -266,6 +268,7 @@ final class Client extends JFrame implements MouseMotionListener {
         }
         Client client = new Client();
         client.connect(hostname);
+        // TODO add message telling the player the game is waiting for the other player to connect
         client.run();
     }
 
